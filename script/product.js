@@ -130,6 +130,7 @@ setTimeout(() => {
 
 const addToCart = (i, action) => {
   let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
+  allProds = JSON.parse(localStorage.getItem("products")) || []
   if (cartProds) {
     let prodInCart = cartProds.filter(cartProd => cartProd.id == i)
     if (prodInCart.length > 0) {
