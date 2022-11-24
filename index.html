@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="styles.css"></link>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
+        rel="stylesheet"  type='text/css'>
+        <script src="https://kit.fontawesome.com/b19a3e2d40.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" media="screen" href="./styles/product.css">
+        <link rel="stylesheet" href="/Fonts/stylesheet.css" type="text/css" charset="utf-8" />
+    <script src="https://kit.fontawesome.com/16de34b7d3.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+    <header> 
+        <div id="header">
+            <div id="header-container">
+                <img src="/img/Mathem-logo.png">
+                <div id="input-container">
+                    <img id="mathem-glas" src="/img/mathem-glas.png"/>
+                    <input placeholder="Sok tusentals varor och recept"/>
+                    <button id="search-button">Sök</button>
+                </div>
+                <img id="bell" src="img/mathem-bell.png"/>
+                <div id="varukorg-i-header" >
+                    <img id="varukorg-bild" onclick="()=>toggleCart()" src="/img/Varukorg-img.png"/>
+                </div>
+            </div>
+        </div>
+        <div id="menu-container">
+            <div id="menu">
+            <ul >
+                <li>Hem</li>
+                <li><select><option>Kategorier</option></select></li>
+                <li><select><option>Erbjudande</option></select></li>
+                <li><select><option>Mer</option></select></li>
+                <li>For foretag</li>
+            </ul>
+            <ul>
+                <li>Ny kund</li>
+                <li>Logga in</li>
+            </ul>
+            </div>
+            
+        </div>
+        <div id="rabatt-mess">
+             <p><b>Ny här?</b> Du får 200 kr rabatt med koden <b><span id="rabatt">NY200KR</span></b> i kassan.</p>
+        </div>
+</header>
+    <nav>
+        <div id="cart">
+            <div>
+                <div id="head-container">
+                    <h1>Varukorg</h1>
+                    <p id="Fortsatt-handla">Fortsatt handla</p>
+                </div>
+            </div>
+            <section id="products">
+                <div id="products-container">
+                <div id="trash-container" onclick="emptyCart()">
+                    <i class="fas fa-solid fa-trash" aria-hidden="true"></i>
+                    <p>Tom varukorg</p>
+                </div>
+            </section>
+            <section id="undercontext">
+                <div id="undercontext-container">
+                    <p style="text-align:left">Summa</p>
+                    <div id="prices-container">
+                        <div class="prices">Varor<span id="prel-price">64 kr</span></div>
+                        <div class="prices">Frakt<span id="transport-price">7 kr</span></div>
+                    </div>
+                    <hr>
+                    <div>
+                        <p id="total-container">Totalt
+                            <span id="total-price">71 kr
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </nav>
+    <main>
+        <h1>Veckans extra priser</h1>
+        <div id="prodCat1" class="product__list">
+        </div>
+        <!--end/product_1-->
+
+            <!-- <div class="product__list_single">1</div>
+            <div class="product__list_single">2</div>
+            <div class="product__list_single">3</div>
+            <div class="product__list_single">4</div>
+            <div class="product__list_single">5</div> -->
+        </div>
+    </main>
+</body>
+<script src="main.js"></script>
+<script src="/script/product.js"></script>
+</html>
