@@ -130,14 +130,40 @@ setTimeout(() => {
 
 const sumQtysInCart = () => {
   let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
-
   let allCartprodsQtys = 0
+
+  let rawPrice = 0
+  let transportPrice = 0
+  let totalSumma
   if (cartProds.length > 0) {
+    totalSumma = 0
     cartProds.map(prod => {
+      let prodPrice = 0
       allCartprodsQtys += prod.qty
+      prodPrice = prod.discount * prod.qty
+      rawPrice += prodPrice
+      transportPrice = rawPrice * 0.1
+      totalSumma += rawPrice + transportPrice.toFixed()
     })
   }
-  document.getElementById("total-qty-in-cart").innerHTML = allCartprodsQtys
+
+  // OM det inte finns produkter i carten vill jag visa
+  // den tomma varukorg symbolen
+  if (totalSumma == 0) {
+    document.getElementById("cart-price").style.display = "none"
+    document.getElementById("varukorg-i-header").style.display = "flex"
+    document.getElementById("total-qty-in-cart").style.display = "none"
+  }
+  // ANNARS visar jag den totala summan i varukorg elementet + antal varor
+  else {
+    document.getElementById("cart-price").style.display = "flex"
+    document.getElementById("total-qty-in-cart").style.display = "block"
+    document.getElementById("varukorg-i-header").style.display = "none"
+    document.getElementById("cart-price").innerHTML =
+      totalSumma.toFixed() + ":-"
+    document.getElementById("total-qty-in-cart").innerHTML = allCartprodsQtys
+    document.getElementById("cart-price").addEventListener("click", toggleCart)
+  }
 }
 
 const addToCart = (i, action) => {

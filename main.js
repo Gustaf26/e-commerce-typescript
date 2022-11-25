@@ -39,7 +39,6 @@ const changeQty = (id, action) => {
 
     allProds.map((prod, ind) => {
       if (ind == chosenProd[0].id) {
-        alert("Updating all prods")
         prod.qty = chosenProd[0].qty
         console.log(prod.qty)
         if (prod.qty == 0) {
@@ -56,15 +55,6 @@ const changeQty = (id, action) => {
   showPricesInCart()
 }
 
-// for (i = 0; i < allIcons.length; i++) {
-//   allIcons[i].addEventListener("click", function myfunc(e) {
-//     let id = e.target.id
-//     let action = id.slice(0, id.indexOf("-"))
-//     let prodNr = id.slice(id.indexOf("-") + 1)
-//     rakna(action, prodNr)
-//   })
-// }
-
 const showPricesInCart = () => {
   let cartProds = JSON.parse(localStorage.getItem("cart_products"))
   let totalSumma = 0
@@ -74,13 +64,12 @@ const showPricesInCart = () => {
     prodPrice = prod.discount * prod.qty
     rawPrice += prodPrice
     transportPrice = rawPrice * 0.1
-    totalSumma += rawPrice + transportPrice
+    totalSumma += rawPrice + transportPrice.toFixed()
   })
   document.getElementById("prel-price").innerHTML = rawPrice + " kr"
-
   document.getElementById("transport-price").innerHTML = transportPrice + " kr"
-
-  document.getElementById("total-price").innerHTML = totalSumma + " kr"
+  document.getElementById("total-price").innerHTML =
+    totalSumma.toFixed() + " kr"
 }
 
 const showProdsInCart = cartProds => {
@@ -115,31 +104,10 @@ const showProdsInCart = cartProds => {
         let prodId = e.target.id.slice(0, e.target.id.indexOf("-"))
         let action = e.target.id.slice(e.target.id.lastIndexOf("-") + 1)
         changeQty(prodId, action)
+        sumQtysInCart()
       })
     })
   }, 2000)
-}
-
-function rakna(action, prod) {
-  let prelPrice = prelPriceEl.innerHTML.slice(
-    0,
-    prelPriceEl.innerHTML.indexOf(" ")
-  )
-
-  let allQtys = document.getElementsByClassName("qty")
-  allQtys = [...allQtys]
-
-  for (i = 0; i < allQtys.length; i++) {
-    if (allQtys[i].id.slice(allQtys[i].id.indexOf("-") + 1) == prod) {
-      console.log(prod)
-      let prodQty = Number(document.getElementById(`qty-${prod}`).innerHTML)
-      if (action == "plus") {
-        document.getElementById(`qty-${prod}`).innerHTML = prodQty + 1
-      } else {
-        document.getElementById(`qty-${prod}`).innerHTML = prodQty - 1
-      }
-    }
-  }
 }
 
 const showEmptyCart = () => {
