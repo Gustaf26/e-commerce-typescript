@@ -53,6 +53,7 @@ const changeQty = (id, action) => {
     localStorage.setItem("products", JSON.stringify(allProds))
   }
   otherSumQtysInCart()
+  showPricesInCart()
 }
 
 // for (i = 0; i < allIcons.length; i++) {
@@ -63,6 +64,24 @@ const changeQty = (id, action) => {
 //     rakna(action, prodNr)
 //   })
 // }
+
+const showPricesInCart = () => {
+  let cartProds = JSON.parse(localStorage.getItem("cart_products"))
+  let totalSumma = 0
+  let rawPrice = 0
+  let transportPrice = 0
+  cartProds.map(prod => {
+    prodPrice = prod.discount * prod.qty
+    rawPrice += prodPrice
+    transportPrice = rawPrice * 0.1
+    totalSumma += rawPrice + transportPrice
+  })
+  document.getElementById("prel-price").innerHTML = rawPrice + " kr"
+
+  document.getElementById("transport-price").innerHTML = transportPrice + " kr"
+
+  document.getElementById("total-price").innerHTML = totalSumma + " kr"
+}
 
 const showProdsInCart = cartProds => {
   let prodsContainer = document.getElementById("products-container")
@@ -75,7 +94,7 @@ const showProdsInCart = cartProds => {
         <div class="product-info">
             <div class="product-specifics">
                 <p>${prod.description}</p>
-                <p><span class="price">${prod.discount}:-</span> <span class="discounted-prod-price">69.95</span></p>
+                <p><span id="${prod.id}-price" class="price">${prod.discount}:-</span> <span class="discounted-prod-price">69.95</span></p>
             </div>
             <div class="qty-container">
                 <i id="${prod.id}-qty-minus" class="qtybutton fas fa-solid fa-minus"></i>
@@ -87,6 +106,7 @@ const showProdsInCart = cartProds => {
     <hr class="proditem">`
     prodsContainer.prepend(prodContainer)
   })
+  showPricesInCart()
   setTimeout(() => {
     let allQtyButtons = document.getElementsByClassName("qtybutton")
     allQtyButtons = [...allQtyButtons]
