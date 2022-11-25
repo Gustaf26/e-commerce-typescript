@@ -1,5 +1,17 @@
 // CART FUNCTIONS
 
+const otherSumQtysInCart = () => {
+  let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
+
+  let allCartprodsQtys = 0
+  if (cartProds.length > 0) {
+    cartProds.map(prod => {
+      allCartprodsQtys += prod.qty
+    })
+  }
+  document.getElementById("total-qty-in-cart").innerHTML = allCartprodsQtys
+}
+
 const changeQty = (id, action) => {
   let cartProds = JSON.parse(localStorage.getItem("cart_products"))
   let allProds = JSON.parse(localStorage.getItem("products"))
@@ -40,6 +52,7 @@ const changeQty = (id, action) => {
     localStorage.setItem("cart_products", JSON.stringify(cartProds))
     localStorage.setItem("products", JSON.stringify(allProds))
   }
+  otherSumQtysInCart()
 }
 
 // for (i = 0; i < allIcons.length; i++) {

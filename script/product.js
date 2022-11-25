@@ -128,6 +128,18 @@ setTimeout(() => {
   })
 }, 3000)
 
+const sumQtysInCart = () => {
+  let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
+
+  let allCartprodsQtys = 0
+  if (cartProds.length > 0) {
+    cartProds.map(prod => {
+      allCartprodsQtys += prod.qty
+    })
+  }
+  document.getElementById("total-qty-in-cart").innerHTML = allCartprodsQtys
+}
+
 const addToCart = (i, action) => {
   let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
   allProds = JSON.parse(localStorage.getItem("products")) || []
@@ -158,5 +170,7 @@ const addToCart = (i, action) => {
     })
   }
   localStorage.setItem("cart_products", JSON.stringify(cartProds))
-  console.log(cartProds)
+  sumQtysInCart()
 }
+
+sumQtysInCart()
