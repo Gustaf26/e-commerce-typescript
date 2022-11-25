@@ -131,8 +131,8 @@ header {
 
 #total-qty-in-cart {
   position: absolute;
-  top: 30px;
-  right: 230px;
+  top: -8px;
+  right: 0px;
   color: black;
   background-color: white;
   width: 20px;

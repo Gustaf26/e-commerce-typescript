@@ -141,11 +141,12 @@ const sumQtysInCart = () => {
       allCartprodsQtys += prod.qty
       prodPrice = prod.discount * prod.qty
       rawPrice += prodPrice
-      transportPrice = (rawPrice * 0.1).toFixed(0)
-      totalSumma =
-        Number(rawPrice).toFixed(2) + Number(transportPrice).toFixed(0)
-      totalSumma = Number(totalSumma).toFixed(0)
     })
+    transportPrice = rawPrice * 0.1
+    transportPrice = Math.round(transportPrice)
+    totalSumma = Number(totalSumma)
+    totalSumma = Number(rawPrice) + Math.round(transportPrice)
+    totalSumma = Number(totalSumma).toFixed(0)
   }
 
   // OM det inte finns produkter i carten vill jag visa
@@ -158,11 +159,13 @@ const sumQtysInCart = () => {
   // ANNARS visar jag den totala summan i varukorg elementet + antal varor
   else {
     document.getElementById("cart-price").style.display = "flex"
-    document.getElementById("total-qty-in-cart").style.display = "block"
     document.getElementById("varukorg-i-header").style.display = "none"
     document.getElementById("cart-price").innerHTML = totalSumma + ":-"
-    document.getElementById("total-qty-in-cart").innerHTML = allCartprodsQtys
     document.getElementById("cart-price").addEventListener("click", toggleCart)
+    let totalPriceEl = document.createElement("span")
+    totalPriceEl.innerHTML = allCartprodsQtys
+    totalPriceEl.id = "total-qty-in-cart"
+    document.getElementById("cart-price").append(totalPriceEl)
   }
 }
 
