@@ -40,10 +40,6 @@ const changeQty = (id, action) => {
     allProds.map((prod, ind) => {
       if (ind == chosenProd[0].id) {
         prod.qty = chosenProd[0].qty
-        console.log(prod.qty)
-        if (prod.qty == 0) {
-          prod.qty = 1
-        }
       }
     })
     console.log(allProds)

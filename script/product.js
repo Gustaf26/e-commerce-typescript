@@ -13,7 +13,7 @@ const changeProdQty = (id, action) => {
   if (action == "plus") {
     prodQty = Number(prodQty) + 1
   } else {
-    if (prodQty == 1) {
+    if (prodQty == 0) {
       return
     }
     prodQty = Number(prodQty) - 1
