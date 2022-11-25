@@ -134,16 +134,17 @@ const sumQtysInCart = () => {
 
   let rawPrice = 0
   let transportPrice = 0
-  let totalSumma
+  let totalSumma = 0
   if (cartProds.length > 0) {
-    totalSumma = 0
+    let prodPrice = 0
     cartProds.map(prod => {
-      let prodPrice = 0
       allCartprodsQtys += prod.qty
       prodPrice = prod.discount * prod.qty
       rawPrice += prodPrice
-      transportPrice = rawPrice * 0.1
-      totalSumma += rawPrice + transportPrice.toFixed()
+      transportPrice = (rawPrice * 0.1).toFixed(0)
+      totalSumma =
+        Number(rawPrice).toFixed(2) + Number(transportPrice).toFixed(0)
+      totalSumma = Number(totalSumma).toFixed(0)
     })
   }
 
@@ -159,8 +160,7 @@ const sumQtysInCart = () => {
     document.getElementById("cart-price").style.display = "flex"
     document.getElementById("total-qty-in-cart").style.display = "block"
     document.getElementById("varukorg-i-header").style.display = "none"
-    document.getElementById("cart-price").innerHTML =
-      totalSumma.toFixed() + ":-"
+    document.getElementById("cart-price").innerHTML = totalSumma + ":-"
     document.getElementById("total-qty-in-cart").innerHTML = allCartprodsQtys
     document.getElementById("cart-price").addEventListener("click", toggleCart)
   }

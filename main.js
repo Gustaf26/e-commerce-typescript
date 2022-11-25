@@ -63,13 +63,14 @@ const showPricesInCart = () => {
   cartProds.map(prod => {
     prodPrice = prod.discount * prod.qty
     rawPrice += prodPrice
-    transportPrice = rawPrice * 0.1
-    totalSumma += rawPrice + transportPrice.toFixed()
+    transportPrice = (rawPrice * 0.1).toFixed(0)
+    totalSumma = Number(totalSumma)
+    totalSumma = Number(rawPrice).toFixed(2) + transportPrice
+    totalSumma = Number(totalSumma).toFixed(0)
   })
   document.getElementById("prel-price").innerHTML = rawPrice + " kr"
   document.getElementById("transport-price").innerHTML = transportPrice + " kr"
-  document.getElementById("total-price").innerHTML =
-    totalSumma.toFixed() + " kr"
+  document.getElementById("total-price").innerHTML = totalSumma + " kr"
 }
 
 const showProdsInCart = cartProds => {
