@@ -9,16 +9,42 @@ const getProds = () => {
 getProds()
 
 const changeProdQty = (id, action) => {
-  let prodQty = document.getElementById(`${id}-qty`).value
-  if (action == "plus") {
-    prodQty = Number(prodQty) + 1
-  } else {
-    if (prodQty == 0) {
-      return
+  if (document.getElementById(`${id}-qty`)) {
+    let prodQty = document.getElementById(`${id}-qty`).value
+    if (action == "plus") {
+      prodQty = Number(prodQty) + 1
+    } else {
+      if (prodQty == 0) {
+        return
+      }
+      prodQty = Number(prodQty) - 1
     }
-    prodQty = Number(prodQty) - 1
+    document.getElementById(`${id}-qty`).value = prodQty
+    // } else {
+    //   let leftControl = document.createElement("button")
+    //   leftControl.id = `${id}-minus`
+    //   leftControl.classList.add("product__card_quantity_button")
+    //   leftControl.innerHTML = `<i  id="" class="fa-solid fa-minus"></i>`
+    //   let controlInput = document.createElement("input")
+    //   controlInput.id = `${id}-qty`
+    //   controlInput.classList.add("quantity__input")
+    //   controlInput.value = 1
+    //   controlInput.type = "number"
+    //     `<button id= class="product__card_quantity_button">
+    //     <i  id="" class="fa-solid fa-minus"></i>
+    // </button>
+    // <input id="${i}-qty" type="text" value=${
+    // data.veckans[i].qty
+    // } class="quantity__input" max="99">`
+    // document.getElementById(`${id}-controls-container`).prepend(controlInput)
+    // document.getElementById(`${id}-controls-container`).prepend(leftControl)
+    // setTimeout(() => {
+    //   leftControl.addEventListener("click", () => {
+    //     addToCart(id, "minus")
+    //     changeProdQty(id, "minus")
+    //   })
+    // }, 2000)
   }
-  document.getElementById(`${id}-qty`).value = prodQty
 }
 
 const showProds = data => {
@@ -89,14 +115,14 @@ const showProds = data => {
                         </div>
                         <div class="product__card_quantity">
                             <div class="product__card_quantity_inner ">
-                                <div class="product__card_controls">
-                                    <button id="${i}-minus" class="product__card_quantity_button">
-                                        <i  id="${i}-icon-minus" class="fa-solid fa-minus"></i>
-                                    </button>
-                                    <input id="${i}-qty" type="text" value=${
+                                <div id="${i}-controls-container" class="product__card_controls">
+                                <button id="${i}-minus" class="product__card_quantity_button button--primary">
+                                    <i id="${i}-icon-minus" class="fa-solid fa-minus"></i>
+                                </button>
+                                <input id="${i}-qty" type="text" value=${
       data.veckans[i].qty
-    } class="quantity__input" max="99">
-                                    <button id="${i}-plus" class="product__card_quantity_button button--primary">
+    } class="quantity__input" max="99">    
+                                <button id="${i}-plus" class="product__card_quantity_button button--primary">
                                         <i id="${i}-icon-plus" class="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
