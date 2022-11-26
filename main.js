@@ -30,6 +30,7 @@ const changeQty = (id, action) => {
         if (cartProd.qty == 0) {
           document.getElementById(`product-${cartProd.id}`).remove()
           cartProds.splice(ind, 1)
+          document.getElementById(`${id}-qty`).value = 0
         } else {
           document.getElementById(`qty-${id}`).innerHTML = chosenProd[0].qty
           document.getElementById(`${id}-qty`).value = chosenProd[0].qty
