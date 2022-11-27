@@ -249,6 +249,10 @@ main {
   cursor: pointer;
 }
 
+.product__card_quantity_button:first-child {
+  background-color: #d1d1d4;
+}
+
 .product__card_controls input {
   width: 30%;
   height: 100%;

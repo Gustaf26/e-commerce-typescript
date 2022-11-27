@@ -8,6 +8,8 @@ const otherSumQtysInCart = () => {
     cartProds.map(prod => {
       allCartprodsQtys += prod.qty
     })
+  } else {
+    showEmptyCart()
   }
   document.getElementById("total-qty-in-cart").innerHTML = allCartprodsQtys
 }
@@ -128,7 +130,7 @@ const toggleCart = () => {
   if (document.getElementById("cart").style.display == "none") {
     let cartProds = JSON.parse(localStorage.getItem("cart_products"))
     document.getElementById("cart").style.display = "block"
-    if (cartProds) {
+    if (cartProds.length > 0) {
       showProdsInCart(cartProds)
       if (document.getElementById("empty-cart-msg")) {
         document.getElementById("empty-cart-msg").innerHTML = ""
