@@ -434,6 +434,10 @@ hr {
   margin-left: 1rem;
 }
 
+#trash-container p:hover {
+  cursor: pointer;
+}
+
 #trash-container .fa-trash {
   background-color: rgb(236, 234, 234);
   border-radius: 50%;
