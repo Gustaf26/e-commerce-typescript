@@ -133,7 +133,7 @@ const toggleCart = () => {
     if (cartProds.length > 0) {
       showProdsInCart(cartProds)
       if (document.getElementById("empty-cart-msg")) {
-        document.getElementById("empty-cart-msg").innerHTML = ""
+        document.getElementById("empty-cart-msg").remove()
       }
     } else {
       showEmptyCart()
