@@ -1,5 +1,26 @@
 // CART FUNCTIONS
 
+const emptyCart = () => {
+  let cartProds = []
+  localStorage.setItem("cart_products", JSON.stringify(cartProds))
+  showEmptyCart()
+  document.getElementById("cart-price").style.display = "none"
+  document.getElementById("varukorg-i-header").style.display = "flex"
+  document.getElementById("total-qty-in-cart").style.display = "none"
+
+  showPricesInCart()
+
+  let allProds = localStorage.getItem("products")
+  allProds = JSON.parse(allProds)
+  allProds.map(prod => {
+    if (document.getElementById(`${prod.id}-qty`)) {
+      document.getElementById(`${prod.id}-qty`).value = 0
+    }
+  })
+
+  // Ändra här så att jag kan ändra prod.qtys i hemsidan också
+}
+
 const otherSumQtysInCart = () => {
   let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
 
