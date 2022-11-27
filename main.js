@@ -3,13 +3,18 @@
 const emptyCart = () => {
   let cartProds = []
   localStorage.setItem("cart_products", JSON.stringify(cartProds))
+
+  // Visar empty cart meddelande
   showEmptyCart()
+  // Uppdaterar varukorg i header element
   document.getElementById("cart-price").style.display = "none"
   document.getElementById("varukorg-i-header").style.display = "flex"
   document.getElementById("total-qty-in-cart").style.display = "none"
 
+  // Uppdaterar pris i varukorg i header
   showPricesInCart()
 
+  // Nollställa alla produkters inputs
   let allProds = localStorage.getItem("products")
   allProds = JSON.parse(allProds)
   allProds.map(prod => {
@@ -17,10 +22,9 @@ const emptyCart = () => {
       document.getElementById(`${prod.id}-qty`).value = 0
     }
   })
-
-  // Ändra här så att jag kan ändra prod.qtys i hemsidan också
 }
 
+// Funktion för att visa total antal produkter i carten
 const otherSumQtysInCart = () => {
   let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
 
@@ -30,11 +34,13 @@ const otherSumQtysInCart = () => {
       allCartprodsQtys += prod.qty
     })
   } else {
+    // Visar tom carts meddelande om cartProds == 0
     showEmptyCart()
   }
   document.getElementById("total-qty-in-cart").innerHTML = allCartprodsQtys
 }
 
+// Denna ändrar produkternas qty i carten och även på sidan
 const changeQty = (id, action) => {
   let cartProds = JSON.parse(localStorage.getItem("cart_products"))
   let allProds = JSON.parse(localStorage.getItem("products"))
@@ -61,20 +67,23 @@ const changeQty = (id, action) => {
       }
     })
 
+    // Uppdaterar även allProds med den valda produktens qty
     allProds.map((prod, ind) => {
       if (ind == chosenProd[0].id) {
         prod.qty = chosenProd[0].qty
       }
     })
-    console.log(allProds)
 
     localStorage.setItem("cart_products", JSON.stringify(cartProds))
     localStorage.setItem("products", JSON.stringify(allProds))
   }
+
+  // Uppdaterar antal produkter i carten + priserna nedan i carten
   otherSumQtysInCart()
   showPricesInCart()
 }
 
+// Updaterar priserna nedan i carten
 const showPricesInCart = () => {
   let cartProds = JSON.parse(localStorage.getItem("cart_products"))
   let totalSumma = 0
@@ -96,6 +105,7 @@ const showPricesInCart = () => {
   document.getElementById("total-price").innerHTML = totalSumma + " kr"
 }
 
+// Visar alla produkter i carten och skapar en HTML element för varje produkt
 const showProdsInCart = cartProds => {
   let prodsContainer = document.getElementById("products-container")
   cartProds.map(prod => {
@@ -119,7 +129,10 @@ const showProdsInCart = cartProds => {
     <hr class="proditem">`
     prodsContainer.prepend(prodContainer)
   })
+
+  // Visa priserna i carten
   showPricesInCart()
+  // Lyssna på klick event för att uppdatera prod.qtys i carten
   setTimeout(() => {
     let allQtyButtons = document.getElementsByClassName("qtybutton")
     allQtyButtons = [...allQtyButtons]
@@ -128,12 +141,16 @@ const showProdsInCart = cartProds => {
         let prodId = e.target.id.slice(0, e.target.id.indexOf("-"))
         let action = e.target.id.slice(e.target.id.lastIndexOf("-") + 1)
         changeQty(prodId, action)
+
+        // Funktionen från den andra filen för att uppdatera
+        // total-qtys-in-cart
         sumQtysInCart()
       })
     })
   }, 2000)
 }
 
+// Visar tom carts meddelande och bild
 const showEmptyCart = () => {
   let cartContainer = document.getElementById("products-container")
   let emptyCartMsg = document.createElement("div")
@@ -147,6 +164,7 @@ const showEmptyCart = () => {
   cartContainer.prepend(emptyCartMsg)
 }
 
+// Ändrar synlighet för carten när man klickar
 const toggleCart = () => {
   if (document.getElementById("cart").style.display == "none") {
     let cartProds = JSON.parse(localStorage.getItem("cart_products"))
@@ -171,6 +189,7 @@ const toggleCart = () => {
   }
 }
 
+// Event listeners för att toggla carten
 document.getElementById("varukorg-bild").addEventListener("click", () => {
   toggleCart()
 })

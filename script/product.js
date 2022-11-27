@@ -1,5 +1,6 @@
 let allProds
 
+// Hämtar produkterna från db
 const getProds = () => {
   fetch("./db/products.json")
     .then(res => res.json())
@@ -8,6 +9,7 @@ const getProds = () => {
 
 getProds()
 
+// Ändrar value på inputen för den valda produkten
 const changeProdQty = (id, action) => {
   if (document.getElementById(`${id}-qty`)) {
     let prodQty = document.getElementById(`${id}-qty`).value
@@ -47,6 +49,7 @@ const changeProdQty = (id, action) => {
   }
 }
 
+// Från alla produktern i db uppvisar en card
 const showProds = data => {
   allProds = data.veckans
   localStorage.setItem("products", JSON.stringify(allProds))
@@ -136,6 +139,7 @@ const showProds = data => {
   }
 }
 
+// Event listeners på produkterna för att kunna ändra qtys och lägga till i carten
 setTimeout(() => {
   let allQtyButtons = document.getElementsByClassName(
     "product__card_quantity_button"
@@ -154,6 +158,7 @@ setTimeout(() => {
   })
 }, 3000)
 
+// Uppdaterar total antal prods i carten och antal prods symbolen
 const sumQtysInCart = () => {
   let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
   let allCartprodsQtys = 0
@@ -195,6 +200,7 @@ const sumQtysInCart = () => {
   }
 }
 
+// Lägger till produkt i carten och uppdaterar cart_product i localStorage
 const addToCart = (i, action) => {
   let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
   allProds = JSON.parse(localStorage.getItem("products")) || []
