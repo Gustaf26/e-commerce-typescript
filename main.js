@@ -178,40 +178,6 @@ const showEmptyCart = () => {
 }
 
 // Ändrar synlighet för carten när man klickar
-// const toggleCart = () => {
-//   if (document.getElementById("cart").style.display == "none") {
-//     let cartProds = JSON.parse(localStorage.getItem("cart_products"))
-//     document.getElementById("cart").style.display = "block"
-//     if (cartProds.length > 0) {
-//       showProdsInCart(cartProds)
-//       if (document.getElementById("empty-cart-msg")) {
-//         document.getElementById("empty-cart-msg").remove()
-//       }
-//     } else {
-//       showEmptyCart()
-//     }
-//   } else {
-//     document.getElementById("cart").style.display = "none"
-//     let allCartProds = document.getElementsByClassName("proditem")
-//     if (allCartProds.length > 0) {
-//       allCartProds = [...allCartProds]
-//       allCartProds.map(cartElement => {
-//         cartElement.remove()
-//       })
-//     }
-//   }
-// }
-
-// // Event listeners för att toggla carten
-// document.getElementById("varukorg-bild").addEventListener("click", () => {
-//   toggleCart()
-// })
-
-// document.getElementById("Fortsatt-handla").addEventListener("click", () => {
-//   toggleCart()
-// })
-
-// Ändrar synlighet för carten när man klickar
 const toggleCart = () => {
   if (document.getElementById("cart").style.display == "none") {
     let cartProds = JSON.parse(localStorage.getItem("cart_products"))
