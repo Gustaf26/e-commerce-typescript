@@ -1,6 +1,7 @@
 // PRODUCT FUNCTIONS
 
 let allProds
+let cartProds = []
 
 // Hämtar produkterna från db
 const getProds = () => {
@@ -14,8 +15,8 @@ getProds()
 // CART FUNCTIONS
 
 const emptyCart = () => {
-  let cartProds = []
-  localStorage.setItem("cart_products", JSON.stringify(cartProds))
+  cartProds = []
+  // localStorage.setItem("cart_products", JSON.stringify(cartProds))
 
   // Visar empty cart meddelande
   showEmptyCart()
@@ -39,7 +40,7 @@ const emptyCart = () => {
 
 // Funktion för att visa total antal produkter i carten
 const otherSumQtysInCart = () => {
-  let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
+  // let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
 
   let allCartprodsQtys = 0
   if (cartProds.length > 0) {
@@ -55,7 +56,7 @@ const otherSumQtysInCart = () => {
 
 // Denna ändrar produkternas qty i carten och även på sidan
 const changeQty = (id, action) => {
-  let cartProds = JSON.parse(localStorage.getItem("cart_products"))
+  // let cartProds = JSON.parse(localStorage.getItem("cart_products"))
   // let allProds = JSON.parse(localStorage.getItem("products"))
   let chosenProd
   if (cartProds && cartProds.length > 0) {
@@ -87,7 +88,7 @@ const changeQty = (id, action) => {
       }
     })
 
-    localStorage.setItem("cart_products", JSON.stringify(cartProds))
+    // localStorage.setItem("cart_products", JSON.stringify(cartProds))
     // localStorage.setItem("products", JSON.stringify(allProds))
   }
 
@@ -98,7 +99,7 @@ const changeQty = (id, action) => {
 
 // Updaterar priserna nedan i carten
 const showPricesInCart = () => {
-  let cartProds = JSON.parse(localStorage.getItem("cart_products"))
+  // let cartProds = JSON.parse(localStorage.getItem("cart_products"))
   let totalSumma = 0
   let rawPrice = 0
   let transportPrice = 0
@@ -180,7 +181,7 @@ const showEmptyCart = () => {
 // Ändrar synlighet för carten när man klickar
 const toggleCart = () => {
   if (document.getElementById("cart").style.display == "none") {
-    let cartProds = JSON.parse(localStorage.getItem("cart_products"))
+    // let cartProds = JSON.parse(localStorage.getItem("cart_products"))
     document.getElementById("cart").style.display = "block"
     if (cartProds.length > 0) {
       showProdsInCart(cartProds)
@@ -362,13 +363,13 @@ setTimeout(() => {
 
 // Uppdaterar total antal prods i carten och antal prods symbolen
 const sumQtysInCart = () => {
-  let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
+  // let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
   let allCartprodsQtys = 0
 
   let rawPrice = 0
   let transportPrice = 0
   let totalSumma = 0
-  if (cartProds.length > 0) {
+  if (cartProds && cartProds.length > 0) {
     let prodPrice = 0
     cartProds.map(prod => {
       allCartprodsQtys += prod.qty
@@ -404,7 +405,7 @@ const sumQtysInCart = () => {
 
 // Lägger till produkt i carten och uppdaterar cart_product i localStorage
 const addToCart = (i, action) => {
-  let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
+  // let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
   // allProds = JSON.parse(localStorage.getItem("products")) || []
   if (cartProds) {
     let prodInCart = cartProds.filter(cartProd => cartProd.id == i)
@@ -432,7 +433,7 @@ const addToCart = (i, action) => {
       }
     })
   }
-  localStorage.setItem("cart_products", JSON.stringify(cartProds))
+  // localStorage.setItem("cart_products", JSON.stringify(cartProds))
   sumQtysInCart()
 }
 
