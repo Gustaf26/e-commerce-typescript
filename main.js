@@ -28,8 +28,8 @@ const emptyCart = () => {
   showPricesInCart()
 
   // Nollställa alla produkters inputs
-  let allProds = localStorage.getItem("products")
-  allProds = JSON.parse(allProds)
+  // let allProds = localStorage.getItem("products")
+  // allProds = JSON.parse(allProds)
   allProds.map(prod => {
     if (document.getElementById(`${prod.id}-qty`)) {
       document.getElementById(`${prod.id}-qty`).value = 0
@@ -56,7 +56,7 @@ const otherSumQtysInCart = () => {
 // Denna ändrar produkternas qty i carten och även på sidan
 const changeQty = (id, action) => {
   let cartProds = JSON.parse(localStorage.getItem("cart_products"))
-  let allProds = JSON.parse(localStorage.getItem("products"))
+  // let allProds = JSON.parse(localStorage.getItem("products"))
   let chosenProd
   if (cartProds && cartProds.length > 0) {
     chosenProd = cartProds.filter(cartProd => cartProd.id == id)
@@ -88,7 +88,7 @@ const changeQty = (id, action) => {
     })
 
     localStorage.setItem("cart_products", JSON.stringify(cartProds))
-    localStorage.setItem("products", JSON.stringify(allProds))
+    // localStorage.setItem("products", JSON.stringify(allProds))
   }
 
   // Uppdaterar antal produkter i carten + priserna nedan i carten
@@ -254,7 +254,7 @@ const changeProdQty = (id, action) => {
 // Från alla produktern i db uppvisar en card
 const showProds = data => {
   allProds = data.veckans
-  localStorage.setItem("products", JSON.stringify(allProds))
+  // localStorage.setItem("products", JSON.stringify(allProds))
   let prodContainer = document.getElementById("prodCat1")
 
   for (i = 0; i < data.veckans.length; i++) {
@@ -405,7 +405,7 @@ const sumQtysInCart = () => {
 // Lägger till produkt i carten och uppdaterar cart_product i localStorage
 const addToCart = (i, action) => {
   let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
-  allProds = JSON.parse(localStorage.getItem("products")) || []
+  // allProds = JSON.parse(localStorage.getItem("products")) || []
   if (cartProds) {
     let prodInCart = cartProds.filter(cartProd => cartProd.id == i)
     if (prodInCart.length > 0) {
