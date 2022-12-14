@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta charset="utf-8">
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+        <title>My webshop</title>
         <link rel="stylesheet" href="/styles/styles.css"></link>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
         rel="stylesheet"  type='text/css'>
@@ -14,42 +15,42 @@
     <header> 
         <div id="header">
             <div id="header-container">
-                <img src="/img/Mathem-logo.png">
+                <p id="logo">Min butik</p>
                 <div id="input-container">
-                    <img id="mathem-glas" src="/img/mathem-glas.png"/>
-                    <input placeholder="Sok tusentals varor och recept"/>
-                    <button id="search-button">Sök</button>
+                    <img alt="glasses" id="mathem-glas" src="/img/mathem-glas.png"/>
+                    <input id="search-input" placeholder="Sok tusentals varor och recept"/>
+                    <button type="button" id="search-button">Sök</button>
                 </div>
-                <img id="bell" src="img/mathem-bell.png"/>
+                <img alt="bell icon" id="bell" src="img/mathem-bell.png"/>
                 <div id="varukorg-i-header" >
-                    <img id="varukorg-bild" onclick="()=>toggleCart()" src="/img/Varukorg-img.png"/>
+                    <img alt="cart image" id="varukorg-bild" onclick="()=>toggleCart()" src="/img/Varukorg-img.png"/>
                 
                 </div>
                 <div id="cart-price">
+                    <span id="total-qty-in-cart"></span>
                 </div>
             </div>
         </div>
         <div id="menu-container">
             <div id="menu">
-            <ul >
-                <li>Hem</li>
-                <li><select><option>Kategorier</option></select></li>
-                <li><select><option>Erbjudande</option></select></li>
-                <li><select><option>Mer</option></select></li>
-                <li>For foretag</li>
-            </ul>
-            <ul>
-                <li>Ny kund</li>
-                <li>Logga in</li>
-            </ul>
-            </div>
-            
+                <ul >
+                    <li>Hem</li>
+                    <li><select title="kategorier"><option>Kategorier</option></select></li>
+                    <li><select title="Offer"><option>Erbjudande</option></select></li>
+                    <li><select title="More"><option>Mer</option></select></li>
+                    <li>Foretag</li>
+                </ul>
+                <ul id="inloggning">
+                    <li>Ny kund</li>
+                    <li>Logga in</li>
+                </ul>
+            </div>    
         </div>
         <div id="rabatt-mess">
              <p><b>Ny här?</b> Du får 200 kr rabatt med koden <b><span id="rabatt">NY200KR</span></b> i kassan.</p>
         </div>
 </header>
-    <nav>
+    <nav id="cart-nav">
         <div id="cart">
             <div>
                 <div id="head-container">
@@ -68,26 +69,32 @@
                     <i onclick="emptyCart()" class="fas fa-solid fa-trash" aria-hidden="true"></i>
                     <p onclick="emptyCart()">Tom varukorg</p>
                 </div>
-            </section>
-            <section id="undercontext">
-                <div id="undercontext-container">
-                    <p style="text-align:left">Summa</p>
-                    <div id="prices-container">
-                        <div class="prices">Varor<span id="prel-price">0 kr</span></div>
-                        <div class="prices">Frakt<span id="transport-price">0 kr</div>
-                    </div>
-                    <hr>
-                    <div>
-                        <p id="total-container">Totalt
-                            <span id="total-price">0 kr
-                            </span>
-                        </p>
+                <div id="undercontext">
+                    <div id="undercontext-container">
+                        <p style="text-align:left">Summa</p>
+                        <div id="prices-container">
+                            <div class="prices">Varor<span id="prel-price">0 kr</span></div>
+                            <div class="prices">Frakt<span id="transport-price">0 kr</div>
+                        </div>
+                        <hr>
+                        <div>
+                            <p id="total-container">Totalt
+                                <span id="total-price">0 kr
+                                </span>
+                            </p>
+                        </div>
                     </div>
                 </div>
+                <div id="go-to-checkout">
+                <p>KASSAN</p>
+            </div>
             </section>
         </div>
     </nav>
     <main>
+        <div>
+            <img id="leverans-process" alt="delivery-process" src="./assets/Mathem-delivery.png"/>
+        </div>
         <h1>Veckans extra priser</h1>
         <div id="prodCat1" class="product__list">
         </div>
@@ -99,6 +106,10 @@
             <div class="product__list_single">4</div>
             <div class="product__list_single">5</div> -->
         </div>
+        <footer>
+        <p>Den här sidan är bara del av en personlig portfolio utan komersiella syften.</p>
+        <p> Vill du handla dessa produkter så rekommenderar vi <a title="mathem-site" href="www.mathem.se">Mathem.se</p>
+    </footer>
     </main>
 </body>
 <script src="main.js"></script>

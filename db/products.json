@@ -11,7 +11,8 @@
       "origin": "Sverige",
       "discount": 19,
       "kilopris": 226.19,
-      "original_price": 35.95
+      "original_price": 35.95,
+      "category": "Kryddor och salt"
     },
     {
       "id": 1,
@@ -24,7 +25,8 @@
       "origin": "Sverige",
       "discount": 39,
       "kilopris": 78,
-      "original_price": 68.95
+      "original_price": 68.95,
+      "category": "Mejeri"
     },
     {
       "id": 2,
@@ -37,7 +39,8 @@
       "origin": "Nordostatlanten",
       "discount": 79,
       "kilopris": 118.1,
-      "original_price": 112
+      "original_price": 112,
+      "category": "Fisk och skaldjur"
     },
     {
       "id": 3,
@@ -50,7 +53,8 @@
       "origin": "Sverige",
       "discount": 109,
       "kilopris": 117.84,
-      "original_price": 159
+      "original_price": 159,
+      "category": "Kött och chark"
     },
     {
       "id": 4,
@@ -63,7 +67,8 @@
       "origin": "Sverige",
       "discount": 15,
       "kilopris": 30,
-      "original_price": 18.95
+      "original_price": 18.95,
+      "category": "Frukt och gront"
     },
     {
       "id": 5,
@@ -76,7 +81,8 @@
       "origin": "Faroarna",
       "discount": 179,
       "kilopris": 358,
-      "original_price": ""
+      "original_price": "",
+      "category": "Fisk och skaldjur"
     },
     {
       "id": 6,
@@ -89,7 +95,8 @@
       "origin": "Spanien",
       "discount": 15,
       "kilopris": 26.95,
-      "original_price": 66.67
+      "original_price": 66.67,
+      "category": "Frukt och gront"
     },
     {
       "id": 7,
@@ -97,12 +104,13 @@
       "brand": "Kronagg",
       "badge1": "../assets/img_styles/products/badges/ekoIcon.png",
       "badge2": "../assets/img_styles/products/badges/svenskt.png",
-      "description": "Agg Frigaende Inomhus 15-p",
+      "description": "Agg Frigaende",
       "qty": 0,
       "origin": "Sverige",
       "discount": 36,
       "kilopris": 78,
-      "original_price": 47
+      "original_price": 47,
+      "category": "Skafferiet"
     },
     {
       "id": 8,
@@ -115,7 +123,8 @@
       "origin": "Marocko",
       "discount": 20,
       "kilopris": 80,
-      "original_price": 22.95
+      "original_price": 22.95,
+      "category": "Frukt och gront"
     },
     {
       "id": 9,
@@ -128,7 +137,8 @@
       "origin": "Sverige",
       "discount": 20,
       "kilopris": 10,
-      "original_price": 23.95
+      "original_price": 23.95,
+      "category": "Bageri"
     },
     {
       "id": 10,
@@ -136,12 +146,13 @@
       "brand": "Felix",
       "badge1": "../assets/img_styles/products/badges/ekoIcon.png",
       "badge2": "../assets/img_styles/products/badges/svenskt.png",
-      "description": "Sma delikatesskottbullar Fryst",
+      "description": "Sma delikatesskottbullar",
       "qty": 0,
       "origin": "Sverige",
       "discount": 70,
       "kilopris": 109.92,
-      "original_price": 99.58
+      "original_price": 99.58,
+      "category": "Bageri"
     }
   ]
 }

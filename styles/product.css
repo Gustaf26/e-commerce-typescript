@@ -4,8 +4,8 @@
   /* font-family: Open Sans, Helvetica Neue, Helvetica, oboto, Arial, sans-serif; */
 }
 main {
-  position: relative;
-  width: 60%;
+  /* position: relative; */
+  width: 98%;
   margin: auto;
   padding: 12px 16px;
   background: #fff;
@@ -17,10 +17,11 @@ main {
   gap: 16px;
   padding-top: 1rem;
   width: 120%;
+  justify-content: center;
 }
 .product__list_single {
   max-width: calc(20% - 15px);
-  min-height: 336px;
+  height: 350px;
   background: #fff;
   border: 1px solid #e5e5e5;
   box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
@@ -272,4 +273,28 @@ main {
   background-color: #f9535c;
   z-index: 2;
   box-shadow: 0 4px 26px rgb(0 0 0 / 17%);
+}
+
+@media screen and (max-width: 600px) {
+  .product__list_single {
+    min-width: 40%;
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 900px) {
+  .product__list_single {
+    min-width: 30%;
+  }
+}
+
+@media screen and (min-width: 901px) and (max-width: 1300px) {
+  .product__list_single {
+    min-width: 20%;
+  }
+}
+
+@media screen and (min-width: 1301px) {
+  .product__list_single {
+    width: 15%;
+  }
 }

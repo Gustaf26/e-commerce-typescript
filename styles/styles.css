@@ -55,7 +55,7 @@ header {
 #logo {
   color: white;
   font-weight: bold;
-  font-size: larger;
+  font-size: x-large;
 }
 
 #input-container {
@@ -105,6 +105,11 @@ header {
   cursor: pointer;
 }
 
+#search-button:hover {
+  color: #26263a;
+  background-color: #a4a8a9;
+}
+
 #bell {
   height: 100%;
   width: auto;
@@ -147,8 +152,8 @@ header {
 div#menu-container {
   position: absolute;
   z-index: 2000;
-  top: 44%;
-  height: 5vh;
+  top: 50%;
+  height: 20%;
   width: 100%;
   background-color: white;
   display: flex;
@@ -200,14 +205,14 @@ div#menu-container {
 /* RABATT MESS */
 
 #rabatt-mess {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   z-index: 2000;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  height: 80px;
+  height: 60px;
   text-align: center;
-  line-height: 5;
-  background-color: #ffecc7;
+  line-height: 3.75;
+  background-color: #a1edfb;
 }
 
 #rabatt-mess p {
@@ -220,6 +225,15 @@ div#menu-container {
   border: 2px solid black;
   border-radius: 10px;
   padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+}
+
+/* PRODUCTS */
+
+#prodCat1 {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 100%;
+  min-height: 100vh;
 }
 
 /* CART STYLES */
@@ -245,24 +259,29 @@ div#menu-container {
   text-align: center;
 }
 
+#cart-nav {
+  position: relative;
+}
+
 #cart {
   display: none;
   top: -2%;
-  width: 80%;
+  width: 35%;
   min-height: 100vh !important;
   z-index: 2000;
   position: absolute;
   animation: 1s move forwards;
+  overflow-x: hidden;
 }
 
 @keyframes move {
   0% {
     right: -55%;
-    top: -2%;
+    top: -3%;
   }
   100% {
-    right: -26%;
-    top: -2%;
+    right: 0px;
+    top: -3%;
     position: fixed;
   }
 }
@@ -271,9 +290,13 @@ div#menu-container {
   cursor: pointer;
 }
 
+#products {
+  min-width: 100%;
+}
+
 #head-container {
   display: flex;
-  width: 35%;
+  width: 100%;
   height: 2%;
   margin: 1rem auto 0 auto;
   background-color: antiquewhite;
@@ -311,11 +334,20 @@ div#menu-container {
   font-size: 1.6em;
 }
 
+#leverans-process {
+  width: 80%;
+  height: auto;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  padding-top: 1.25rem;
+}
+
 /*CART PRODUCTS*/
 
 main {
   position: absolute;
-  top: 20%;
+  top: 140px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -327,20 +359,23 @@ main h1 {
 
 #products {
   width: 35%;
-  height: 63vh;
+  min-height: 93vh;
   margin: 0 auto;
   background-color: white;
-  padding: 0 1rem;
+  padding: 0;
 }
 #products-container {
-  width: 93%;
+  width: 92%;
+  min-height: 43vh;
   padding: 0.8rem;
+  background-color: white;
+  overflow-y: scroll;
 }
 
 #products h3 {
   font-size: 1.3em;
   color: rgb(74, 73, 73);
-  padding-top: 1rem;
+  padding: 1rem 1rem;
 }
 
 /* SINGLE  CART PRODUCT */
@@ -422,11 +457,10 @@ hr {
   color: red;
   width: 93%;
   height: 9vh;
-  padding: 1rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding-right: 1rem;
+  padding: 1rem 1rem 1rem 1.5rem;
   margin-top: -1rem;
 }
 
@@ -444,12 +478,12 @@ hr {
   padding: 0.85rem;
 }
 
-/* undercontext */
+/* undercontext i cart*/
 
 #undercontext {
   position: relative;
   display: flex;
-  width: 35%;
+  width: 100%;
   height: 25vh;
   margin: 0 auto;
   background-color: rgb(226, 221, 215);
@@ -475,8 +509,13 @@ hr {
 }
 
 #undercontext #undercontext-container {
-  width: 93%;
+  width: 100%;
   margin: 1rem 1rem 1rem 0.5rem;
+}
+
+#trash-container {
+  background-color: white;
+  margin-left: 0;
 }
 
 #prices-container {
@@ -499,6 +538,51 @@ hr {
   justify-content: space-between;
 }
 
+#go-to-checkout {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  z-index: 2000;
+  bottom: 10%;
+  width: 33%;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#go-to-checkout p {
+  padding: 1rem;
+  width: 100%;
+  margin-left: 1.5rem;
+  color: whitesmoke;
+  background-color: #26263ae3;
+  border: 2px solid white;
+  border-radius: 20px;
+  text-align: center;
+}
+
+#go-to-checkout p:hover {
+  background-color: antiquewhite;
+  color: #26263a;
+  border-color: #26263a;
+  cursor: pointer;
+}
+
+footer {
+  display: flex;
+  position: absolute;
+  bottom: -18%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 140px;
+  background-color: #26263a;
+  padding: 1rem;
+  color: whitesmoke;
+}
+footer p {
+  margin: 0.5rem;
+}
+
 /* responsive */
 
 @media screen and (max-width: 700px) {
@@ -506,5 +590,257 @@ hr {
   #products,
   #undercontext {
     width: 90%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #bell {
+    display: none;
+  }
+  #header-container {
+    padding-top: 1rem;
+  }
+  #header-container input {
+    font-size: small;
+    padding-left: 25%;
+    width: 70%;
+  }
+  #search-button {
+    width: 20%;
+    font-size: small;
+    margin-right: 0.15rem;
+  }
+
+  #cart-price,
+  #total-qty-in-cart {
+    font-size: medium;
+  }
+
+  #menu {
+    width: 100%;
+    font-size: small;
+    display: flex;
+    justify-content: center;
+  }
+
+  #menu ul:nth-child(odd) {
+    width: 100%;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  #varukorg-bild {
+    max-width: 80px !important;
+    height: auto;
+  }
+
+  /* CART */
+
+  #cart {
+    width: 50%;
+    font-size: medium;
+  }
+
+  #go-to-checkout {
+    width: 42%;
+  }
+
+  #head-container {
+    width: 100%;
+  }
+
+  #head-container h1,
+  #cart h3 {
+    font-size: large;
+  }
+
+  .proditem {
+    width: 100%;
+  }
+  .proditem .product-specifics p {
+    font-size: medium;
+  }
+
+  #undercontext {
+    width: 100%;
+  }
+
+  div #inloggning {
+    display: none;
+  }
+
+  #rabatt-mess p {
+    font-size: small;
+    line-height: 5.5;
+  }
+  #leverans-process {
+    display: none;
+  }
+  footer {
+    font-size: smaller;
+    text-align: center;
+    padding: 1rem;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 900px) {
+  .product__list_single {
+    min-width: 40%;
+  }
+  #bell {
+    display: none;
+  }
+  #header-container input {
+    font-size: small;
+    padding-left: 20%;
+    width: 85%;
+  }
+  #search-button {
+    width: 20%;
+    font-size: small;
+    margin-right: -0.75rem;
+  }
+
+  #cart {
+    width: 40vw;
+  }
+
+  #go-to-checkout {
+    width: 36%;
+  }
+
+  #cart-price,
+  #total-qty-in-cart {
+    font-size: medium;
+  }
+
+  #menu {
+    width: 100%;
+    font-size: small;
+    display: flex;
+    justify-content: center;
+  }
+
+  #menu ul:nth-child(odd) {
+    width: 100%;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  #varukorg-bild {
+    max-width: 80px !important;
+    height: auto;
+  }
+
+  #head-container,
+  #undercontext {
+    width: 100%;
+  }
+
+  #head-container h1 {
+    font-size: large;
+  }
+
+  #products-container h3 {
+    font-size: large;
+  }
+
+  .proditem .product-specifics p {
+    font-size: small;
+  }
+
+  .price {
+    font-size: medium !important;
+  }
+  .discounted-prod-price {
+    text-decoration: line-through !important;
+  }
+
+  div #inloggning {
+    display: none;
+  }
+
+  #under-msg-empty-cart {
+    font-size: medium !important;
+  }
+
+  #rabatt-mess p {
+    font-size: small;
+    line-height: 5.5;
+  }
+  #leverans-process {
+    display: none;
+  }
+  h1 {
+    font-size: large;
+  }
+  footer {
+    font-size: smaller;
+    text-align: center;
+    padding: 1rem;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 901px) and (max-width: 1300px) {
+  #bell {
+    display: block;
+  }
+  #header-container input {
+    font-size: medium;
+    padding-left: 15%;
+    width: 85%;
+  }
+
+  #menu {
+    width: 100%;
+    font-size: small;
+    display: flex;
+    justify-content: center;
+  }
+
+  #menu ul:nth-child(odd) {
+    width: 70%;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  #varukorg-bild {
+    max-width: 180px !important;
+    height: auto;
+  }
+
+  #cart {
+    width: 40%;
+  }
+
+  #go-to-checkout {
+    width: 36%;
+  }
+
+  div #inloggning {
+    display: flex;
+  }
+
+  #rabatt-mess p {
+    font-size: medium;
+    line-height: 4.5;
+  }
+
+  h1 {
+    font-size: larger;
+  }
+  #leverans-process {
+    display: block;
+  }
+  footer {
+    font-size: medium;
+    text-align: center;
+    padding: 1rem;
+    width: 100%;
   }
 }

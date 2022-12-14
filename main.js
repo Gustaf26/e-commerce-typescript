@@ -1,230 +1,270 @@
-// PRODUCT FUNCTIONS
-
-let allProds
-let cartProds = []
-
-// Hämtar produkterna från db
-const getProds = () => {
-  fetch("./db/products.json")
-    .then(res => res.json())
-    .then(res => showProds(res))
+"use strict";
+var _a;
+var allProds;
+var cartProds = [];
+var searchProds = [];
+var totalSumma = 0;
+(_a = document.getElementById("search-button")) === null || _a === void 0
+  ? void 0
+  : _a.addEventListener("click", function (e) {
+      var inputEL = document.getElementById("search-input");
+      if (inputEL.value.length > 0) {
+        searchProdsFunction(inputEL.value);
+      } else {
+        emptyProds();
+        showProds(allProds);
+      }
+    });
+// Function för att tömma produkterna
+function emptyProds() {
+  var prodsContainer = document.getElementById("prodCat1");
+  prodsContainer.innerHTML = "";
 }
-
-getProds()
-
-// CART FUNCTIONS
-
-const emptyCart = () => {
-  cartProds = []
-  // localStorage.setItem("cart_products", JSON.stringify(cartProds))
-
-  // Visar empty cart meddelande
-  showEmptyCart()
-  // Uppdaterar varukorg i header element
-  document.getElementById("cart-price").style.display = "none"
-  document.getElementById("varukorg-i-header").style.display = "flex"
-  document.getElementById("total-qty-in-cart").style.display = "none"
-
-  // Uppdaterar pris i varukorg i header
-  showPricesInCart()
-
-  // Nollställa alla produkters inputs
-  // let allProds = localStorage.getItem("products")
-  // allProds = JSON.parse(allProds)
-  allProds.map(prod => {
-    if (document.getElementById(`${prod.id}-qty`)) {
-      document.getElementById(`${prod.id}-qty`).value = 0
+// Search products function
+function searchProdsFunction(val) {
+  emptyProds();
+  // alert("Searching prod");
+  allProds.veckans.map(function (prod) {
+    if (
+      prod.description.toLowerCase().includes(val.toLowerCase()) ||
+      prod.brand.toLowerCase().includes(val.toLowerCase()) ||
+      prod.origin.toLowerCase().includes(val.toLowerCase())
+    ) {
+      // alert("Value founded");
+      searchProds.push(prod);
     }
-  })
+  });
+  showProds({ veckans: searchProds });
+  searchProds = [];
 }
-
-// Funktion för att visa total antal produkter i carten
-const otherSumQtysInCart = () => {
-  // let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
-
-  let allCartprodsQtys = 0
-  if (cartProds.length > 0) {
-    cartProds.map(prod => {
-      allCartprodsQtys += prod.qty
+// Hämtar produkterna från db
+var getProds = function () {
+  fetch("./db/products.json")
+    .then(function (res) {
+      return res.json();
     })
+    .then(function (res) {
+      allProds = res;
+      showProds(allProds);
+    });
+};
+getProds();
+// CART FUNCTIONS
+var emptyCart = function () {
+  cartProds = [];
+  // Visar empty cart meddelande
+  showEmptyCart();
+  // Uppdaterar varukorg i header element
+  var cardPriceEl = document.getElementById("cart-price");
+  cardPriceEl.style.display = "none";
+  var varuKorgEl = document.getElementById("varukorg-i-header");
+  varuKorgEl.style.display = "flex";
+  var totalQTyEl = document.getElementById("total-qty-in-cart");
+  totalQTyEl.style.display = "none";
+  // Uppdaterar pris i varukorg i header
+  showPricesInCart();
+  // Nollställa alla produkters inputs
+  allProds.veckans.map(function (prod) {
+    if (document.getElementById("".concat(prod.id, "-qty"))) {
+      var qtyEl = document.getElementById("".concat(prod.id, "-qty"));
+      var qtyNumber = 0;
+      prod.qty = 0;
+      qtyEl.value = qtyNumber.toString();
+    }
+  });
+};
+// Funktion för att visa total antal produkter i carten
+var otherSumQtysInCart = function () {
+  var allCartprodsQtys = 0;
+  if (cartProds.length > 0) {
+    cartProds.map(function (prod) {
+      allCartprodsQtys += prod.qty;
+    });
   } else {
     // Visar tom carts meddelande om cartProds == 0
-    showEmptyCart()
+    showEmptyCart();
   }
-  document.getElementById("total-qty-in-cart").innerHTML = allCartprodsQtys
-}
-
+  var totalQTyInCartEl = document.getElementById("total-qty-in-cart");
+  totalQTyInCartEl.innerHTML = allCartprodsQtys.toString();
+};
 // Denna ändrar produkternas qty i carten och även på sidan
-const changeQty = (id, action) => {
-  // let cartProds = JSON.parse(localStorage.getItem("cart_products"))
-  // let allProds = JSON.parse(localStorage.getItem("products"))
-  let chosenProd
+var changeQty = function (id, action) {
+  var chosenProd;
   if (cartProds && cartProds.length > 0) {
-    chosenProd = cartProds.filter(cartProd => cartProd.id == id)
-    console.log(chosenProd)
+    chosenProd = cartProds.filter(function (cartProd) {
+      return cartProd.id == id;
+    });
+    console.log(chosenProd);
     if (chosenProd && action == "plus") {
-      chosenProd[0].qty += 1
+      chosenProd[0].qty += 1;
     } else if (chosenProd && action == "minus") {
-      chosenProd[0].qty -= 1
+      chosenProd[0].qty -= 1;
     }
-    cartProds.map((cartProd, ind) => {
+    cartProds.map(function (cartProd, ind) {
       if (cartProd.id == chosenProd[0].id) {
-        cartProd = chosenProd[0]
+        cartProd = chosenProd[0];
         if (cartProd.qty == 0) {
-          document.getElementById(`product-${cartProd.id}`).remove()
-          cartProds.splice(ind, 1)
-          document.getElementById(`${id}-qty`).value = 0
+          var productEL = document.getElementById(
+            "product-".concat(cartProd.id)
+          );
+          productEL.remove();
+          cartProds.splice(ind, 1);
+          var prodQtyEl = document.getElementById("".concat(id, "-qty"));
+          prodQtyEl.value = "0";
         } else {
-          document.getElementById(`qty-${id}`).innerHTML = chosenProd[0].qty
-          document.getElementById(`${id}-qty`).value = chosenProd[0].qty
+          var prodQtyEl = document.getElementById("qty-".concat(id));
+          prodQtyEl.innerHTML = chosenProd[0].qty.toString();
+          var otherProdQtyEl = document.getElementById("".concat(id, "-qty"));
+          otherProdQtyEl.value = chosenProd[0].qty.toString();
         }
       }
-    })
-
+    });
     // Uppdaterar även allProds med den valda produktens qty
-    allProds.map((prod, ind) => {
+    allProds.veckans.map(function (prod, ind) {
       if (ind == chosenProd[0].id) {
-        prod.qty = chosenProd[0].qty
+        prod.qty = chosenProd[0].qty;
       }
-    })
-
-    // localStorage.setItem("cart_products", JSON.stringify(cartProds))
-    // localStorage.setItem("products", JSON.stringify(allProds))
+    });
   }
-
   // Uppdaterar antal produkter i carten + priserna nedan i carten
-  otherSumQtysInCart()
-  showPricesInCart()
-}
-
+  otherSumQtysInCart();
+  showPricesInCart();
+};
 // Updaterar priserna nedan i carten
-const showPricesInCart = () => {
-  // let cartProds = JSON.parse(localStorage.getItem("cart_products"))
-  let totalSumma = 0
-  let rawPrice = 0
-  let transportPrice = 0
-  cartProds.map(prod => {
-    prodPrice = prod.discount * prod.qty
-    rawPrice += prodPrice
-  })
-
-  transportPrice = rawPrice * 0.1
-  transportPrice = Math.round(transportPrice)
-  totalSumma = Number(totalSumma)
-  totalSumma = Number(rawPrice) + Math.round(transportPrice)
-  totalSumma = Number(totalSumma).toFixed(0)
-
-  document.getElementById("prel-price").innerHTML = rawPrice + " kr"
-  document.getElementById("transport-price").innerHTML = transportPrice + " kr"
-  document.getElementById("total-price").innerHTML = totalSumma + " kr"
-}
-
+var showPricesInCart = function () {
+  var totalSumma = 0;
+  var rawPrice = 0;
+  var transportPrice = 0;
+  cartProds.map(function (prod) {
+    var prodPrice = prod.discount * prod.qty;
+    rawPrice += prodPrice;
+  });
+  transportPrice = rawPrice * 0.1;
+  transportPrice = Math.round(transportPrice);
+  totalSumma = Number(totalSumma);
+  totalSumma = Number(rawPrice) + Math.round(transportPrice);
+  totalSumma = Number(totalSumma.toFixed(2));
+  var prelPriceEl = document.getElementById("prel-price");
+  prelPriceEl.innerHTML = rawPrice + " kr";
+  var transPriceEl = document.getElementById("transport-price");
+  transPriceEl.innerHTML = transportPrice + " kr";
+  var totalPriceEl = document.getElementById("total-price");
+  totalPriceEl.innerHTML = totalSumma + " kr";
+};
 // Visar alla produkter i carten och skapar en HTML element för varje produkt
-const showProdsInCart = cartProds => {
-  let prodsContainer = document.getElementById("products-container")
-  cartProds.map(prod => {
-    let prodContainer = document.createElement("div")
-    prodContainer.id = `product-${prod.id}`
-    prodContainer.innerHTML = `<h3 id="heading-prod1" class="proditem">Kott & Chark</h3>
-    <div class="product proditem" id="prod1">
-        <img src="${prod.main_img}"/>
-        <div class="product-info">
-            <div class="product-specifics">
-                <p>${prod.description}</p>
-                <p><span id="${prod.id}-price" class="price">${prod.discount}:-</span> <span class="discounted-prod-price">69.95</span></p>
-            </div>
-            <div class="qty-container">
-                <i id="${prod.id}-qty-minus" class="qtybutton fas fa-solid fa-minus"></i>
-                <b class="qty" id="qty-${prod.id}">${prod.qty}</b>
-                <i id="${prod.id}-qty-plus"  class="qtybutton fas fa-solid fa-plus"></i>
-            </div>
-        </div>
-    </div>
-    <hr class="proditem">`
-    prodsContainer.prepend(prodContainer)
-  })
-
+var showProdsInCart = function (cartProds) {
+  var prodsContainer = document.getElementById("products-container");
+  cartProds.map(function (prod) {
+    var prodContainer = document.createElement("div");
+    prodContainer.id = "product-".concat(prod.id);
+    prodContainer.innerHTML = '<h3 id="heading-prod1" class="proditem">'
+      .concat(
+        prod.category,
+        '</h3>\n    <div class="product proditem" id="prod1">\n        <img src="'
+      )
+      .concat(
+        prod.main_img,
+        '"/>\n        <div class="product-info">\n            <div class="product-specifics">\n                <p>'
+      )
+      .concat(prod.description, '</p>\n                <p><span id="')
+      .concat(prod.id, '-price" class="price">')
+      .concat(prod.discount, ':-</span> <span class="discounted-prod-price">')
+      .concat(
+        Math.round(prod.discount * 0.1),
+        '</span></p>\n            </div>\n            <div class="qty-container">\n                <i id="'
+      )
+      .concat(
+        prod.id,
+        '-qty-minus" class="qtybutton fas fa-solid fa-minus"></i>\n                <b class="qty" id="qty-'
+      )
+      .concat(prod.id, '">')
+      .concat(prod.qty, '</b>\n                <i id="')
+      .concat(
+        prod.id,
+        '-qty-plus"  class="qtybutton fas fa-solid fa-plus"></i>\n            </div>\n        </div>\n    </div>\n    <hr class="proditem">'
+      );
+    prodsContainer.prepend(prodContainer);
+  });
+  var trashEl = document.getElementById("trash-container");
+  trashEl.style.display = "flex";
   // Visa priserna i carten
-  showPricesInCart()
+  showPricesInCart();
   // Lyssna på klick event för att uppdatera prod.qtys i carten
-  setTimeout(() => {
-    let allQtyButtons = document.getElementsByClassName("qtybutton")
-    allQtyButtons = [...allQtyButtons]
-    allQtyButtons.map(but => {
-      but.addEventListener("click", e => {
-        let prodId = e.target.id.slice(0, e.target.id.indexOf("-"))
-        let action = e.target.id.slice(e.target.id.lastIndexOf("-") + 1)
-        changeQty(prodId, action)
-
+  setTimeout(function () {
+    var allQtyButtons = document.getElementsByClassName("qtybutton");
+    Array.from(allQtyButtons).map(function (but) {
+      but.addEventListener("click", function (e) {
+        if (e.target instanceof HTMLElement) {
+          var prodId = e.target.id.slice(0, e.target.id.indexOf("-"));
+          var action = e.target.id.slice(e.target.id.lastIndexOf("-") + 1);
+          changeQty(Number(prodId), action);
+        }
         // Funktionen från den andra filen för att uppdatera
         // total-qtys-in-cart
-        sumQtysInCart()
-      })
-    })
-  }, 2000)
-}
-
+        sumQtysInCart();
+      });
+    });
+  }, 2000);
+};
 // Visar tom carts meddelande och bild
-const showEmptyCart = () => {
-  let cartContainer = document.getElementById("products-container")
-  let emptyCartMsg = document.createElement("div")
-  emptyCartMsg.id = "empty-cart-msg"
-
-  emptyCartMsg.innerHTML = `<img src="/assets/tom-varukorg.png">
-                      <h3>Oj, din varukorg ar tom.</h3>
-                      <p>Borja handla, sa kommer varukorgen borja fyllas upp har</p>
-                      `
-
-  cartContainer.prepend(emptyCartMsg)
-}
-
+var showEmptyCart = function () {
+  var cartContainer = document.getElementById("products-container");
+  var emptyCartMsg = document.createElement("div");
+  emptyCartMsg.id = "empty-cart-msg";
+  emptyCartMsg.innerHTML =
+    '<img src="/assets/tom-varukorg.png">\n                      <h3>Oj, din varukorg ar tom.</h3>\n                      <p id="under-msg-empty-cart">Borja handla, sa kommer varukorgen borja fyllas upp har</p>\n                      ';
+  cartContainer.innerHTML = "";
+  cartContainer.prepend(emptyCartMsg);
+  var trashEl = document.getElementById("trash-container");
+  trashEl.style.display = "none";
+};
 // Ändrar synlighet för carten när man klickar
-const toggleCart = () => {
-  if (document.getElementById("cart").style.display == "none") {
-    // let cartProds = JSON.parse(localStorage.getItem("cart_products"))
-    document.getElementById("cart").style.display = "block"
+var toggleCart = function () {
+  var cartEL = document.getElementById("cart");
+  if (cartEL && cartEL.style.display == "none") {
+    cartEL.style.display = "block";
     if (cartProds.length > 0) {
-      showProdsInCart(cartProds)
-      if (document.getElementById("empty-cart-msg")) {
-        document.getElementById("empty-cart-msg").remove()
+      showProdsInCart(cartProds);
+      var emptyCartMsgEl = document.getElementById("empty-cart-msg");
+      if (emptyCartMsgEl) {
+        emptyCartMsgEl.remove();
       }
     } else {
-      showEmptyCart()
+      showEmptyCart();
     }
   } else {
-    document.getElementById("cart").style.display = "none"
-    let allCartProds = document.getElementsByClassName("proditem")
+    cartEL.style.display = "none";
+    var allCartProds = document.getElementsByClassName("proditem");
     if (allCartProds.length > 0) {
-      allCartProds = [...allCartProds]
-      allCartProds.map(cartElement => {
-        cartElement.remove()
-      })
+      Array.from(allCartProds).map(function (cartElement) {
+        cartElement.remove();
+      });
     }
   }
-}
-
+};
 // Event listeners för att toggla carten
-document.getElementById("varukorg-bild").addEventListener("click", () => {
-  toggleCart()
-})
-
-document.getElementById("Fortsatt-handla").addEventListener("click", () => {
-  toggleCart()
-})
-
+var varukorgBildEl = document.getElementById("varukorg-bild");
+varukorgBildEl.addEventListener("click", function () {
+  toggleCart();
+});
+var forsattHandlaEl = document.getElementById("Fortsatt-handla");
+forsattHandlaEl.addEventListener("click", function () {
+  toggleCart();
+});
 // Ändrar value på inputen för den valda produkten
-const changeProdQty = (id, action) => {
-  if (document.getElementById(`${id}-qty`)) {
-    let prodQty = document.getElementById(`${id}-qty`).value
+var changeProdQty = function (id, action) {
+  if (document.getElementById("".concat(id, "-qty"))) {
+    var prodQtyEl = document.getElementById("".concat(id, "-qty"));
+    var prodQty = Number(prodQtyEl.value);
     if (action == "plus") {
-      prodQty = Number(prodQty) + 1
+      prodQty = prodQty + 1;
     } else {
       if (prodQty == 0) {
-        return
+        return;
       }
-      prodQty = Number(prodQty) - 1
+      prodQty = prodQty - 1;
     }
-    document.getElementById(`${id}-qty`).value = prodQty
+    prodQtyEl.value = prodQty.toString();
     // } else {
     //   let leftControl = document.createElement("button")
     //   leftControl.id = `${id}-minus`
@@ -250,191 +290,194 @@ const changeProdQty = (id, action) => {
     //   })
     // }, 2000)
   }
-}
-
+};
 // Från alla produktern i db uppvisar en card
-const showProds = data => {
-  allProds = data.veckans
-  // localStorage.setItem("products", JSON.stringify(allProds))
-  let prodContainer = document.getElementById("prodCat1")
-
-  for (i = 0; i < data.veckans.length; i++) {
-    let prodEl = document.createElement("div")
-    prodEl.classList.add("product__list_single")
-
-    prodEl.innerHTML = `
-            <div class="product__card">
-                <div class="product__card_splash ">
-                    <div class="product__card_splash_inner product-overlay">
-                        <span>${data.veckans[i].discount.toFixed(0)}:-</span>
-                    </div>
-                </div>
-                <div class="product__card_image">
-                    
-                    <figure>
-                        <img src=${
-                          data.veckans[i].main_img
-                        } alt="Taco kryddmix" />
-                    </figure>
-                </div>
-                <div class="product__card_content">
-                    <div class="product__card_brand">
-                        <a href="#" class="product__card_brand_value">
-                            <span>${data.veckans[i].brand}</span>
-                        </a>
-                        <div class="product__card_badges">
-                            <span class="product__card_badges_tooltips" data-hover="Ekologiskt">
-                                <img src=${data.veckans[i].badge1} alt="Eko">
-                            </span>
-                            <span class="product__card_badges_tooltips" data-hover="Svenskt ursprung">
-                                <img src=${
-                                  data.veckans[i].badge2
-                                } alt="Svenskt ursprung">
-                            </span>
-                        </div>
-                    </div>
-                    <div class="product__card_title_holder">
-                        <span>${data.veckans[i].description}</span>
-                    </div>
-                    <div class="product__card_subtitle">
-                        <div class="product__card_size">
-                            <span>${data.veckans[i].qty}st</span>
-                        </div>
-                        <div class="product__card_origin">
-                            <span class="aria-label">${
-                              data.veckans[i].origin
-                            }</span>
-                        </div>
-                    </div>
-                    <div class="product__card_bottom">
-                        <div class="product__card_price">
-                            <span class="price price__discount">${
-                              data.veckans[i].discount
-                            }:-</span>
-                            <span class="price__compare">${
-                              data.veckans[i].kilopris
-                            } /kg</span>
-                            <div class="divider"></div>
-                            <span class="price_orginal">${
-                              data.veckans[i].original_price
-                            }</span>
-                        </div>
-                        <div class="product__card_quantity">
-                            <div class="product__card_quantity_inner ">
-                                <div id="${i}-controls-container" class="product__card_controls">
-                                <button id="${i}-minus" class="product__card_quantity_button button--primary">
-                                    <i id="${i}-icon-minus" class="fa-solid fa-minus"></i>
-                                </button>
-                                <input id="${i}-qty" type="text" value=${
-      data.veckans[i].qty
-    } class="quantity__input" max="99">    
-                                <button id="${i}-plus" class="product__card_quantity_button button--primary">
-                                        <i id="${i}-icon-plus" class="fa-solid fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>`
-
-    prodContainer.append(prodEl)
+var showProds = function (data) {
+  // alert("Prods showing");
+  var prodContainer = document.getElementById("prodCat1");
+  for (var i = 0; i < data.veckans.length; i++) {
+    var prodEl = document.createElement("div");
+    prodEl.classList.add("product__list_single");
+    prodEl.innerHTML =
+      '\n            <div class="product__card">\n                <div class="product__card_splash ">\n                    <div class="product__card_splash_inner product-overlay">\n                        <span>'
+        .concat(
+          data.veckans[i].discount.toFixed(0),
+          ':-</span>\n                    </div>\n                </div>\n                <div class="product__card_image">\n                    \n                    <figure>\n                        <img src='
+        )
+        .concat(
+          data.veckans[i].main_img,
+          ' alt="Taco kryddmix" />\n                    </figure>\n                </div>\n                <div class="product__card_content">\n                    <div class="product__card_brand">\n                        <a href="#" class="product__card_brand_value">\n                            <span>'
+        )
+        .concat(
+          data.veckans[i].brand,
+          '</span>\n                        </a>\n                        <div class="product__card_badges">\n                            <span class="product__card_badges_tooltips" data-hover="Ekologiskt">\n                                <img src='
+        )
+        .concat(
+          data.veckans[i].badge1,
+          ' alt="Eko">\n                            </span>\n                            <span class="product__card_badges_tooltips" data-hover="Svenskt ursprung">\n                                <img src='
+        )
+        .concat(
+          data.veckans[i].badge2,
+          ' alt="Svenskt ursprung">\n                            </span>\n                        </div>\n                    </div>\n                    <div class="product__card_title_holder">\n                        <span>'
+        )
+        .concat(
+          data.veckans[i].description,
+          '</span>\n                    </div>\n                    <div class="product__card_subtitle">\n                        <div class="product__card_size">\n                            <span>'
+        )
+        .concat(
+          data.veckans[i].qty,
+          'st</span>\n                        </div>\n                        <div class="product__card_origin">\n                            <span class="aria-label">'
+        )
+        .concat(
+          data.veckans[i].origin,
+          '</span>\n                        </div>\n                    </div>\n                    <div class="product__card_bottom">\n                        <div class="product__card_price">\n                            <span class="price price__discount">'
+        )
+        .concat(
+          data.veckans[i].discount,
+          ':-</span>\n                            <span class="price__compare">'
+        )
+        .concat(
+          data.veckans[i].kilopris,
+          ' /kg</span>\n                            <div class="divider"></div>\n                            <span class="price_orginal">'
+        )
+        .concat(
+          data.veckans[i].original_price,
+          '</span>\n                        </div>\n                        <div class="product__card_quantity">\n                            <div class="product__card_quantity_inner ">\n                                <div id="'
+        )
+        .concat(
+          data.veckans[i].id,
+          '-controls-container" class="product__card_controls">\n                                <button id="'
+        )
+        .concat(
+          data.veckans[i].id,
+          '-minus" class="product__card_quantity_button button--primary">\n                                    <i id="'
+        )
+        .concat(
+          data.veckans[i].id,
+          '-icon-minus" class="fa-solid fa-minus"></i>\n                                </button>\n                                <input id="'
+        )
+        .concat(data.veckans[i].id, '-qty" type="text" value=')
+        .concat(
+          data.veckans[i].qty,
+          ' class="quantity__input" max="99">    \n                                <button id="'
+        )
+        .concat(
+          data.veckans[i].id,
+          '-plus" class="product__card_quantity_button button--primary">\n                                        <i id="'
+        )
+        .concat(
+          data.veckans[i].id,
+          '-icon-plus" class="fa-solid fa-plus"></i>\n                                    </button>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>'
+        );
+    prodContainer.append(prodEl);
   }
-}
-
-// Event listeners på produkterna för att kunna ändra qtys och lägga till i carten
-setTimeout(() => {
-  let allQtyButtons = document.getElementsByClassName(
-    "product__card_quantity_button"
-  )
-  allQtyButtons = [...allQtyButtons]
-  allQtyButtons.map(but => {
-    but.addEventListener("click", e => {
-      if (e.target.id.slice(e.target.id.lastIndexOf("-") + 1) == "plus") {
-        addToCart(e.target.id.slice(0, e.target.id.indexOf("-")), "plus")
-        changeProdQty(e.target.id.slice(0, e.target.id.indexOf("-")), "plus")
-      } else {
-        addToCart(e.target.id.slice(0, e.target.id.indexOf("-")), "minus")
-        changeProdQty(e.target.id.slice(0, e.target.id.indexOf("-")), "minus")
-      }
-    })
-  })
-}, 3000)
-
+  // Event listeners på produkterna för att kunna ändra qtys och lägga till i carten
+  setTimeout(function () {
+    var allQtyButtons = document.getElementsByClassName(
+      "product__card_quantity_button"
+    );
+    Array.from(allQtyButtons).map(function (but) {
+      console.log(but);
+      but.addEventListener("click", function (e) {
+        if (e.target instanceof HTMLElement) {
+          if (e.target.id.slice(e.target.id.lastIndexOf("-") + 1) == "plus") {
+            addToCart(
+              Number(e.target.id.slice(0, e.target.id.indexOf("-"))),
+              "plus"
+            );
+            changeProdQty(
+              Number(e.target.id.slice(0, e.target.id.indexOf("-"))),
+              "plus"
+            );
+          } else {
+            addToCart(
+              Number(e.target.id.slice(0, e.target.id.indexOf("-"))),
+              "minus"
+            );
+            changeProdQty(
+              Number(e.target.id.slice(0, e.target.id.indexOf("-"))),
+              "minus"
+            );
+          }
+        }
+      });
+    });
+  }, 3000);
+};
 // Uppdaterar total antal prods i carten och antal prods symbolen
-const sumQtysInCart = () => {
-  // let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
-  let allCartprodsQtys = 0
-
-  let rawPrice = 0
-  let transportPrice = 0
-  let totalSumma = 0
+var sumQtysInCart = function () {
+  var allCartprodsQtys = 0;
+  var rawPrice = 0;
+  var transportPrice = 0;
+  var totalSumma = 0;
   if (cartProds && cartProds.length > 0) {
-    let prodPrice = 0
-    cartProds.map(prod => {
-      allCartprodsQtys += prod.qty
-      prodPrice = prod.discount * prod.qty
-      rawPrice += prodPrice
-    })
-    transportPrice = rawPrice * 0.1
-    transportPrice = Math.round(transportPrice)
-    totalSumma = Number(totalSumma)
-    totalSumma = Number(rawPrice) + Math.round(transportPrice)
-    totalSumma = Number(totalSumma).toFixed(0)
+    var prodPrice_1 = 0;
+    cartProds.map(function (prod) {
+      allCartprodsQtys += prod.qty;
+      prodPrice_1 = prod.discount * prod.qty;
+      rawPrice += prodPrice_1;
+    });
+    transportPrice = rawPrice * 0.1;
+    transportPrice = Math.round(transportPrice);
+    totalSumma = Number(totalSumma);
+    totalSumma = Number(rawPrice) + Math.round(transportPrice);
+    totalSumma = Number(totalSumma.toFixed(0));
   }
-
   // OM det inte finns produkter i carten vill jag visa
   // den tomma varukorg symbolen
   if (totalSumma == 0) {
-    document.getElementById("cart-price").style.display = "none"
-    document.getElementById("varukorg-i-header").style.display = "flex"
-    document.getElementById("total-qty-in-cart").style.display = "none"
+    var cartPriceEl = document.getElementById("cart-price");
+    cartPriceEl.style.display = "none";
+    var varukorgEl = document.getElementById("varukorg-i-header");
+    varukorgEl.style.display = "flex";
+    var totalCartQtyEl = document.getElementById("total-qty-in-cart");
+    totalCartQtyEl.style.display = "none";
   }
   // ANNARS visar jag den totala summan i varukorg elementet + antal varor
   else {
-    document.getElementById("cart-price").style.display = "flex"
-    document.getElementById("varukorg-i-header").style.display = "none"
-    document.getElementById("cart-price").innerHTML = totalSumma + ":-"
-    document.getElementById("cart-price").addEventListener("click", toggleCart)
-    let totalPriceEl = document.createElement("span")
-    totalPriceEl.innerHTML = allCartprodsQtys
-    totalPriceEl.id = "total-qty-in-cart"
-    document.getElementById("cart-price").append(totalPriceEl)
+    var cartPriceEl = document.getElementById("cart-price");
+    cartPriceEl.style.display = "flex";
+    var varukorgEl = document.getElementById("varukorg-i-header");
+    varukorgEl.style.display = "none";
+    cartPriceEl.innerHTML = totalSumma + ":-";
+    cartPriceEl.addEventListener("click", toggleCart);
+    var totalPriceEl = document.createElement("span");
+    totalPriceEl.innerHTML = allCartprodsQtys.toString();
+    totalPriceEl.id = "total-qty-in-cart";
+    cartPriceEl.append(totalPriceEl);
   }
-}
-
+};
 // Lägger till produkt i carten och uppdaterar cart_product i localStorage
-const addToCart = (i, action) => {
-  // let cartProds = JSON.parse(localStorage.getItem("cart_products")) || []
-  // allProds = JSON.parse(localStorage.getItem("products")) || []
+var addToCart = function (i, action) {
+  // alert("Adding working");
   if (cartProds) {
-    let prodInCart = cartProds.filter(cartProd => cartProd.id == i)
+    var prodInCart = cartProds.filter(function (cartProd) {
+      return cartProd.id == i;
+    });
     if (prodInCart.length > 0) {
       if (action == "plus") {
-        prodInCart[0].qty += 1
+        prodInCart[0].qty += 1;
       } else {
-        prodInCart[0].qty -= 1
+        prodInCart[0].qty -= 1;
       }
       if (prodInCart[0].qty == 0) {
-        cartProds.splice(cartProds.indexOf(prodInCart[0]), 1)
+        cartProds.splice(cartProds.indexOf(prodInCart[0]), 1);
       }
     } else if (action == "plus") {
-      allProds.map((prod, ind) => {
+      allProds.veckans.map(function (prod, ind) {
         if (ind == i) {
-          prod.qty += 1
-          cartProds.push(prod)
+          prod.qty += 1;
+          cartProds.push(prod);
         }
-      })
+      });
     }
   } else if (action == "plus") {
-    allProds.map((prod, ind) => {
+    allProds.veckans.map(function (prod, ind) {
       if (ind == i) {
-        cartProds.push(prod)
+        cartProds.push(prod);
       }
-    })
+    });
   }
-  // localStorage.setItem("cart_products", JSON.stringify(cartProds))
-  sumQtysInCart()
-}
-
-sumQtysInCart()
+  sumQtysInCart();
+};
+sumQtysInCart();
