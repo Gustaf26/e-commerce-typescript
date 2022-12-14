@@ -32,6 +32,9 @@ header {
   right: 0;
   left: 0;
   z-index: 2000;
+  padding-left: 0;
+  margin-left: 0;
+  width: 100%;
 }
 
 #header {
@@ -41,11 +44,13 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0 !important;
+  margin-left: 0;
 }
 
 #header-container {
   max-height: 100%;
-  width: 85%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -232,8 +237,10 @@ div#menu-container {
 #prodCat1 {
   display: flex;
   flex-wrap: wrap;
-  min-width: 100%;
+  max-width: 100vw;
   min-height: 100vh;
+  margin-left: -1rem;
+  padding-bottom: 1rem;
 }
 
 /* CART STYLES */
@@ -350,6 +357,8 @@ main {
   top: 140px;
   display: flex;
   flex-wrap: wrap;
+  left: 0;
+  padding-bottom: 1rem;
 }
 
 main h1 {
@@ -569,18 +578,18 @@ hr {
 footer {
   display: flex;
   position: absolute;
-  bottom: -18%;
+  bottom: -7%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 140px;
+  height: 6%;
   background-color: #26263a;
   padding: 1rem;
   color: whitesmoke;
 }
 footer p {
-  margin: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* responsive */
@@ -596,6 +605,13 @@ footer p {
 @media screen and (max-width: 600px) {
   #bell {
     display: none;
+  }
+  header {
+    max-width: 100vw;
+    padding-top: 0.85%;
+  }
+  #header {
+    max-width: 100%;
   }
   #header-container {
     padding-top: 1rem;
@@ -617,7 +633,7 @@ footer p {
   }
 
   #menu {
-    width: 100%;
+    max-width: 100%;
     font-size: small;
     display: flex;
     justify-content: center;
@@ -633,6 +649,11 @@ footer p {
   #varukorg-bild {
     max-width: 80px !important;
     height: auto;
+  }
+
+  main h1 {
+    font-size: large;
+    margin-left: 4%;
   }
 
   /* CART */
@@ -671,8 +692,8 @@ footer p {
   }
 
   #rabatt-mess p {
-    font-size: small;
-    line-height: 5.5;
+    font-size: x-small;
+    line-height: 7.2;
   }
   #leverans-process {
     display: none;
@@ -680,8 +701,14 @@ footer p {
   footer {
     font-size: smaller;
     text-align: center;
-    padding: 1rem;
-    width: 100%;
+    /* padding: 1rem; */
+    max-width: 100%;
+    left: 0;
+  }
+  footer p {
+    max-width: 100%;
+    font-size: smaller;
+    margin-left: -7%;
   }
 }
 
