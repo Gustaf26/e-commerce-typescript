@@ -66,13 +66,6 @@ const getProds = () => {
       })
     )
     .catch((err) => console.log(err));
-
-  // fetch("./db/products.json")
-  //   .then((res) => res.json())
-  //   .then((res) => {
-  //     allProds = res;
-
-  //   });
 };
 
 getProds();
