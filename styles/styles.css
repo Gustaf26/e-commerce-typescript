@@ -300,13 +300,14 @@ div#menu-container {
 
 #products {
   min-width: 100%;
+  position: relative;
 }
 
 #head-container {
   display: flex;
-  max-width: 95%;
+  width: 95%;
   height: 45px;
-  margin: 1rem auto 0 auto;
+  margin: 1rem auto 0 -1%;
   background-color: #a1edfb;
   color: black;
   padding: 1rem;
@@ -555,18 +556,16 @@ hr {
 }
 
 #go-to-checkout {
-  position: fixed;
   display: flex;
   justify-content: center;
-  z-index: 2000;
-  bottom: 10%;
-  width: 33%;
+  max-width: 93%;
   background-color: rgba(0, 0, 0, 0);
+  margin-bottom: 1rem;
 }
 
 #go-to-checkout p {
   padding: 1rem;
-  width: 100%;
+  min-width: 100%;
   margin-left: 1.5rem;
   color: whitesmoke;
   background-color: #26263ae3;
@@ -669,10 +668,6 @@ footer p {
     font-size: medium;
   }
 
-  #go-to-checkout {
-    width: 42%;
-  }
-
   #head-container h1,
   #cart h3 {
     font-size: large;
@@ -699,6 +694,11 @@ footer p {
       top: -3%;
       position: fixed;
     }
+  }
+
+  #go-to-checkout {
+    width: 90vw;
+    margin-left: 1.5%;
   }
 
   /* Rabatt message */
@@ -744,10 +744,6 @@ footer p {
 
   #cart {
     width: 40vw;
-  }
-
-  #go-to-checkout {
-    width: 36%;
   }
 
   #cart-price,
@@ -850,10 +846,6 @@ footer p {
 
   #cart {
     width: 40%;
-  }
-
-  #go-to-checkout {
-    width: 36%;
   }
 
   div #inloggning {
