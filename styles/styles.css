@@ -566,11 +566,9 @@ hr {
 #go-to-checkout p {
   padding: 1rem;
   min-width: 100%;
-  margin-left: 1.5rem;
   color: whitesmoke;
   background-color: #26263ae3;
   border: 2px solid white;
-  border-radius: 20px;
   text-align: center;
 }
 

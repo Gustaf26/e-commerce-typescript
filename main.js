@@ -26,6 +26,7 @@ function searchProdsFunction(val) {
   // alert("Searching prod");
   allProds.map(function (prod) {
     if (
+      prod.category.toLowerCase().includes(val.toLowerCase()) ||
       prod.description.toLowerCase().includes(val.toLowerCase()) ||
       prod.brand.toLowerCase().includes(val.toLowerCase()) ||
       prod.title.toLowerCase().includes(val.toLowerCase())
@@ -37,6 +38,35 @@ function searchProdsFunction(val) {
   showProds(searchProds);
   searchProds = [];
 }
+// To show the options for the Kategorier select element
+var showCategories = function (prods) {
+  var _a;
+  var prodCats = [];
+  prods.forEach(function (prod) {
+    prod.category =
+      prod.category.charAt(0).toUpperCase() + prod.category.slice(1);
+    if (!prodCats.includes(prod.category)) {
+      prodCats.push(prod.category);
+    }
+  });
+  prodCats.forEach(function (cat) {
+    var _a;
+    var catEL = document.createElement("option");
+    catEL.innerHTML = cat;
+    catEL.classList.add("category");
+    (_a = document.getElementById("kategorier")) === null || _a === void 0
+      ? void 0
+      : _a.append(catEL);
+  });
+  (_a = document.getElementById("kategorier")) === null || _a === void 0
+    ? void 0
+    : _a.addEventListener("click", function (e) {
+        if (e.target instanceof HTMLSelectElement) {
+          console.log(e.target.value);
+          searchProdsFunction(e.target.value);
+        }
+      });
+};
 // Hämtar produkterna från db
 var getProds = function () {
   fetch("https://dummyjson.com/products")
@@ -47,16 +77,12 @@ var getProds = function () {
           return (prod.qty = 0);
         });
         showProds(allProds);
+        showCategories(allProds);
       });
     })
     ["catch"](function (err) {
       return console.log(err);
     });
-  // fetch("./db/products.json")
-  //   .then((res) => res.json())
-  //   .then((res) => {
-  //     allProds = res;
-  //   });
 };
 getProds();
 // CART FUNCTIONS
@@ -164,6 +190,8 @@ var showPricesInCart = function () {
 // Visar alla produkter i carten och skapar en HTML element för varje produkt
 var showProdsInCart = function (cartProds) {
   var prodsContainer = document.getElementById("products-container");
+  var goToCheckoutEl = document.getElementById("go-to-checkout");
+  goToCheckoutEl.style.display = "block";
   cartProds.map(function (prod) {
     var prodContainer = document.createElement("div");
     prodContainer.id = "product-".concat(prod.id);
@@ -227,6 +255,8 @@ var showEmptyCart = function () {
   cartContainer.prepend(emptyCartMsg);
   var trashEl = document.getElementById("trash-container");
   trashEl.style.display = "none";
+  var goToCheckoutEl = document.getElementById("go-to-checkout");
+  goToCheckoutEl.style.display = "none";
 };
 // Ändrar synlighet för carten när man klickar
 var toggleCart = function () {

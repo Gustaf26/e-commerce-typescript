@@ -42,6 +42,7 @@ function searchProdsFunction(val: string) {
   // alert("Searching prod");
   allProds.map((prod: Product) => {
     if (
+      prod.category.toLowerCase().includes(val.toLowerCase()) ||
       prod.description.toLowerCase().includes(val.toLowerCase()) ||
       prod.brand.toLowerCase().includes(val.toLowerCase()) ||
       prod.title.toLowerCase().includes(val.toLowerCase())
@@ -55,6 +56,34 @@ function searchProdsFunction(val: string) {
   searchProds = [];
 }
 
+// To show the options for the Kategorier select element
+
+const showCategories = (prods: Product[]) => {
+  let prodCats: string[] = [];
+
+  prods.forEach((prod: Product) => {
+    prod.category =
+      prod.category.charAt(0).toUpperCase() + prod.category.slice(1);
+    if (!prodCats.includes(prod.category)) {
+      prodCats.push(prod.category);
+    }
+  });
+
+  prodCats.forEach((cat) => {
+    let catEL = document.createElement("option") as HTMLOptionElement;
+    catEL.innerHTML = cat;
+    catEL.classList.add("category");
+    document.getElementById("kategorier")?.append(catEL);
+  });
+
+  document.getElementById("kategorier")?.addEventListener("click", (e) => {
+    if (e.target instanceof HTMLSelectElement) {
+      console.log(e.target.value);
+      searchProdsFunction(e.target.value);
+    }
+  });
+};
+
 // Hämtar produkterna från db
 const getProds = () => {
   fetch("https://dummyjson.com/products")
@@ -63,6 +92,7 @@ const getProds = () => {
         allProds = res.products;
         allProds.forEach((prod) => (prod.qty = 0));
         showProds(allProds);
+        showCategories(allProds);
       })
     )
     .catch((err) => console.log(err));
@@ -202,6 +232,10 @@ const showProdsInCart = (cartProds: Product[]) => {
   let prodsContainer = document.getElementById(
     "products-container"
   ) as HTMLBaseElement;
+  let goToCheckoutEl = document.getElementById(
+    "go-to-checkout"
+  ) as HTMLBaseElement;
+  goToCheckoutEl.style.display = "block";
   cartProds.map((prod: Product) => {
     let prodContainer = document.createElement("div");
     prodContainer.id = `product-${prod.id}`;
@@ -277,6 +311,10 @@ const showEmptyCart = () => {
   cartContainer.prepend(emptyCartMsg);
   let trashEl = document.getElementById("trash-container") as HTMLBaseElement;
   trashEl.style.display = "none";
+  let goToCheckoutEl = document.getElementById(
+    "go-to-checkout"
+  ) as HTMLBaseElement;
+  goToCheckoutEl.style.display = "none";
 };
 
 // Ändrar synlighet för carten när man klickar
