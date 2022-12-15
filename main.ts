@@ -1,20 +1,21 @@
 // PRODUCT FUNCTIONS
 type Product = {
-  badge1: string;
-  badge2: string;
-  brand: string;
-  description: string;
-  discount: number;
-  readonly id: number;
-  kilopris: number;
-  main_img: string;
-  origin: string;
-  original_price: number;
   qty: number;
+  // Här
+  brand: string;
   category: string;
+  description: string;
+  discountPercentage: number;
+  readonly id: number;
+  images: [];
+  price: number;
+  rating: number;
+  stock: number;
+  thumbnail: string;
+  title: string;
 };
 
-let allProds: { veckans: Product[] };
+let allProds: Product[];
 let cartProds: Product[] = [];
 let searchProds: Product[] = [];
 let totalSumma: number = 0;
@@ -39,29 +40,39 @@ function emptyProds() {
 function searchProdsFunction(val: string) {
   emptyProds();
   // alert("Searching prod");
-  allProds.veckans.map((prod: Product) => {
+  allProds.map((prod: Product) => {
     if (
       prod.description.toLowerCase().includes(val.toLowerCase()) ||
       prod.brand.toLowerCase().includes(val.toLowerCase()) ||
-      prod.origin.toLowerCase().includes(val.toLowerCase())
+      prod.title.toLowerCase().includes(val.toLowerCase())
     ) {
       // alert("Value founded");
       searchProds.push(prod);
     }
   });
 
-  showProds({ veckans: searchProds });
+  showProds(searchProds);
   searchProds = [];
 }
 
 // Hämtar produkterna från db
 const getProds = () => {
-  fetch("./db/products.json")
-    .then((res) => res.json())
-    .then((res) => {
-      allProds = res;
-      showProds(allProds);
-    });
+  fetch("https://dummyjson.com/products")
+    .then((res) =>
+      res.json().then((res) => {
+        allProds = res.products;
+        allProds.forEach((prod) => (prod.qty = 0));
+        showProds(allProds);
+      })
+    )
+    .catch((err) => console.log(err));
+
+  // fetch("./db/products.json")
+  //   .then((res) => res.json())
+  //   .then((res) => {
+  //     allProds = res;
+
+  //   });
 };
 
 getProds();
@@ -90,7 +101,7 @@ const emptyCart = () => {
 
   // Nollställa alla produkters inputs
 
-  allProds.veckans.map((prod: Product) => {
+  allProds.map((prod: Product) => {
     if (document.getElementById(`${prod.id}-qty`)) {
       let qtyEl = document.getElementById(`${prod.id}-qty`) as HTMLInputElement;
       let qtyNumber = 0;
@@ -155,8 +166,8 @@ const changeQty = (id: number, action: string) => {
     });
 
     // Uppdaterar även allProds med den valda produktens qty
-    allProds.veckans.map((prod: Product, ind: number) => {
-      if (ind == chosenProd[0].id) {
+    allProds.map((prod: Product, ind: number) => {
+      if (prod.id == chosenProd[0].id) {
         prod.qty = chosenProd[0].qty;
       }
     });
@@ -173,7 +184,7 @@ const showPricesInCart = () => {
   let rawPrice = 0;
   let transportPrice = 0;
   cartProds.map((prod: Product) => {
-    let prodPrice = prod.discount * prod.qty;
+    let prodPrice = prod.price * prod.qty;
     rawPrice += prodPrice;
   });
 
@@ -205,14 +216,14 @@ const showProdsInCart = (cartProds: Product[]) => {
       prod.category
     }</h3>
     <div class="product proditem" id="prod1">
-        <img src="${prod.main_img}"/>
+        <img src="${prod.thumbnail}"/>
         <div class="product-info">
             <div class="product-specifics">
-                <p>${prod.description}</p>
+                <p>${prod.title}</p>
                 <p><span id="${prod.id}-price" class="price">${
-      prod.discount
+      prod.price
     }:-</span> <span class="discounted-prod-price">${Math.round(
-      prod.discount * 0.1
+      prod.discountPercentage
     )}</span></p>
             </div>
             <div class="qty-container">
@@ -361,11 +372,11 @@ const changeProdQty = (id: number, action: "plus" | "minus") => {
 };
 
 // Från alla produktern i db uppvisar en card
-const showProds = (data: { veckans: Product[] }) => {
+const showProds = (data: Product[]) => {
   // alert("Prods showing");
   let prodContainer = document.getElementById("prodCat1") as HTMLBaseElement;
 
-  for (let i = 0; i < data.veckans.length; i++) {
+  for (let i = 0; i < data.length; i++) {
     let prodEl = document.createElement("div");
     prodEl.classList.add("product__list_single");
 
@@ -373,81 +384,64 @@ const showProds = (data: { veckans: Product[] }) => {
             <div class="product__card">
                 <div class="product__card_splash ">
                     <div class="product__card_splash_inner product-overlay">
-                        <span>${data.veckans[i].discount.toFixed(0)}:-</span>
+                        <span>${data[i].price.toFixed(0)}:-</span>
                     </div>
                 </div>
                 <div class="product__card_image">
                     
                     <figure>
-                        <img src=${
-                          data.veckans[i].main_img
-                        } alt="Taco kryddmix" />
+                        <img src=${data[i].thumbnail} alt="Taco kryddmix" />
                     </figure>
                 </div>
                 <div class="product__card_content">
                     <div class="product__card_brand">
                         <a href="#" class="product__card_brand_value">
-                            <span>${data.veckans[i].brand}</span>
+                            <span>${data[i].brand}</span>
                         </a>
-                        <div class="product__card_badges">
-                            <span class="product__card_badges_tooltips" data-hover="Ekologiskt">
-                                <img src=${data.veckans[i].badge1} alt="Eko">
-                            </span>
-                            <span class="product__card_badges_tooltips" data-hover="Svenskt ursprung">
-                                <img src=${
-                                  data.veckans[i].badge2
-                                } alt="Svenskt ursprung">
-                            </span>
-                        </div>
                     </div>
                     <div class="product__card_title_holder">
-                        <span>${data.veckans[i].description}</span>
+                        <span>${data[i].title}</span>
                     </div>
                     <div class="product__card_subtitle">
-                        <div class="product__card_size">
-                            <span>${data.veckans[i].qty}st</span>
-                        </div>
                         <div class="product__card_origin">
-                            <span class="aria-label">${
-                              data.veckans[i].origin
-                            }</span>
+                            <span class="aria-label">${data[i].category}</span>
                         </div>
                     </div>
                     <div class="product__card_bottom">
                         <div class="product__card_price">
                             <span class="price price__discount">${
-                              data.veckans[i].discount
+                              data[i].price
                             }:-</span>
-                            <span class="price__compare">${
-                              data.veckans[i].kilopris
-                            } /kg</span>
+                            <span class="price__compare"> ${
+                              data[i].stock
+                            } st kvar</span>
                             <div class="divider"></div>
                             <span class="price_orginal">${
-                              data.veckans[i].original_price
+                              data[i].discountPercentage
                             }</span>
                         </div>
                         <div class="product__card_quantity">
                             <div class="product__card_quantity_inner ">
                                 <div id="${
-                                  data.veckans[i].id
+                                  data[i].id
                                 }-controls-container" class="product__card_controls">
                                 <button id="${
-                                  data.veckans[i].id
+                                  data[i].id
                                 }-minus" class="product__card_quantity_button button--primary">
                                     <i id="${
-                                      data.veckans[i].id
+                                      data[i].id
                                     }-icon-minus" class="fa-solid fa-minus"></i>
                                 </button>
                                 <input id="${
-                                  data.veckans[i].id
+                                  data[i].id
                                 }-qty" type="text" value=${
-      data.veckans[i].qty
+      data[i].qty
     } class="quantity__input" max="99">    
                                 <button id="${
-                                  data.veckans[i].id
+                                  data[i].id
                                 }-plus" class="product__card_quantity_button button--primary">
                                         <i id="${
-                                          data.veckans[i].id
+                                          data[i].id
                                         }-icon-plus" class="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
@@ -466,7 +460,6 @@ const showProds = (data: { veckans: Product[] }) => {
     );
 
     Array.from(allQtyButtons).map((but) => {
-      console.log(but);
       but.addEventListener("click", (e) => {
         if (e.target instanceof HTMLElement) {
           if (e.target.id.slice(e.target.id.lastIndexOf("-") + 1) == "plus") {
@@ -505,7 +498,7 @@ const sumQtysInCart = () => {
     let prodPrice = 0;
     cartProds.map((prod: Product) => {
       allCartprodsQtys += prod.qty;
-      prodPrice = prod.discount * prod.qty;
+      prodPrice = prod.price * prod.qty;
       rawPrice += prodPrice;
     });
     transportPrice = rawPrice * 0.1;
@@ -563,16 +556,16 @@ const addToCart = (i: number, action: "plus" | "minus") => {
         cartProds.splice(cartProds.indexOf(prodInCart[0]), 1);
       }
     } else if (action == "plus") {
-      allProds.veckans.map((prod, ind) => {
-        if (ind == i) {
+      allProds.map((prod, ind) => {
+        if (prod.id == i) {
           prod.qty += 1;
           cartProds.push(prod);
         }
       });
     }
   } else if (action == "plus") {
-    allProds.veckans.map((prod, ind) => {
-      if (ind == i) {
+    allProds.map((prod, ind) => {
+      if (prod.id == i) {
         cartProds.push(prod);
       }
     });

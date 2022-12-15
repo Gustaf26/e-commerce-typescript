@@ -24,29 +24,39 @@ function emptyProds() {
 function searchProdsFunction(val) {
   emptyProds();
   // alert("Searching prod");
-  allProds.veckans.map(function (prod) {
+  allProds.map(function (prod) {
     if (
       prod.description.toLowerCase().includes(val.toLowerCase()) ||
       prod.brand.toLowerCase().includes(val.toLowerCase()) ||
-      prod.origin.toLowerCase().includes(val.toLowerCase())
+      prod.title.toLowerCase().includes(val.toLowerCase())
     ) {
       // alert("Value founded");
       searchProds.push(prod);
     }
   });
-  showProds({ veckans: searchProds });
+  showProds(searchProds);
   searchProds = [];
 }
 // Hämtar produkterna från db
 var getProds = function () {
-  fetch("./db/products.json")
+  fetch("https://dummyjson.com/products")
     .then(function (res) {
-      return res.json();
+      return res.json().then(function (res) {
+        allProds = res.products;
+        allProds.forEach(function (prod) {
+          return (prod.qty = 0);
+        });
+        showProds(allProds);
+      });
     })
-    .then(function (res) {
-      allProds = res;
-      showProds(allProds);
+    ["catch"](function (err) {
+      return console.log(err);
     });
+  // fetch("./db/products.json")
+  //   .then((res) => res.json())
+  //   .then((res) => {
+  //     allProds = res;
+  //   });
 };
 getProds();
 // CART FUNCTIONS
@@ -64,7 +74,7 @@ var emptyCart = function () {
   // Uppdaterar pris i varukorg i header
   showPricesInCart();
   // Nollställa alla produkters inputs
-  allProds.veckans.map(function (prod) {
+  allProds.map(function (prod) {
     if (document.getElementById("".concat(prod.id, "-qty"))) {
       var qtyEl = document.getElementById("".concat(prod.id, "-qty"));
       var qtyNumber = 0;
@@ -120,8 +130,8 @@ var changeQty = function (id, action) {
       }
     });
     // Uppdaterar även allProds med den valda produktens qty
-    allProds.veckans.map(function (prod, ind) {
-      if (ind == chosenProd[0].id) {
+    allProds.map(function (prod, ind) {
+      if (prod.id == chosenProd[0].id) {
         prod.qty = chosenProd[0].qty;
       }
     });
@@ -136,7 +146,7 @@ var showPricesInCart = function () {
   var rawPrice = 0;
   var transportPrice = 0;
   cartProds.map(function (prod) {
-    var prodPrice = prod.discount * prod.qty;
+    var prodPrice = prod.price * prod.qty;
     rawPrice += prodPrice;
   });
   transportPrice = rawPrice * 0.1;
@@ -163,14 +173,14 @@ var showProdsInCart = function (cartProds) {
         '</h3>\n    <div class="product proditem" id="prod1">\n        <img src="'
       )
       .concat(
-        prod.main_img,
+        prod.thumbnail,
         '"/>\n        <div class="product-info">\n            <div class="product-specifics">\n                <p>'
       )
-      .concat(prod.description, '</p>\n                <p><span id="')
+      .concat(prod.title, '</p>\n                <p><span id="')
       .concat(prod.id, '-price" class="price">')
-      .concat(prod.discount, ':-</span> <span class="discounted-prod-price">')
+      .concat(prod.price, ':-</span> <span class="discounted-prod-price">')
       .concat(
-        Math.round(prod.discount * 0.1),
+        Math.round(prod.discountPercentage),
         '</span></p>\n            </div>\n            <div class="qty-container">\n                <i id="'
       )
       .concat(
@@ -295,78 +305,66 @@ var changeProdQty = function (id, action) {
 var showProds = function (data) {
   // alert("Prods showing");
   var prodContainer = document.getElementById("prodCat1");
-  for (var i = 0; i < data.veckans.length; i++) {
+  for (var i = 0; i < data.length; i++) {
     var prodEl = document.createElement("div");
     prodEl.classList.add("product__list_single");
     prodEl.innerHTML =
       '\n            <div class="product__card">\n                <div class="product__card_splash ">\n                    <div class="product__card_splash_inner product-overlay">\n                        <span>'
         .concat(
-          data.veckans[i].discount.toFixed(0),
+          data[i].price.toFixed(0),
           ':-</span>\n                    </div>\n                </div>\n                <div class="product__card_image">\n                    \n                    <figure>\n                        <img src='
         )
         .concat(
-          data.veckans[i].main_img,
+          data[i].thumbnail,
           ' alt="Taco kryddmix" />\n                    </figure>\n                </div>\n                <div class="product__card_content">\n                    <div class="product__card_brand">\n                        <a href="#" class="product__card_brand_value">\n                            <span>'
         )
         .concat(
-          data.veckans[i].brand,
-          '</span>\n                        </a>\n                        <div class="product__card_badges">\n                            <span class="product__card_badges_tooltips" data-hover="Ekologiskt">\n                                <img src='
+          data[i].brand,
+          '</span>\n                        </a>\n                    </div>\n                    <div class="product__card_title_holder">\n                        <span>'
         )
         .concat(
-          data.veckans[i].badge1,
-          ' alt="Eko">\n                            </span>\n                            <span class="product__card_badges_tooltips" data-hover="Svenskt ursprung">\n                                <img src='
+          data[i].title,
+          '</span>\n                    </div>\n                    <div class="product__card_subtitle">\n                        <div class="product__card_origin">\n                            <span class="aria-label">'
         )
         .concat(
-          data.veckans[i].badge2,
-          ' alt="Svenskt ursprung">\n                            </span>\n                        </div>\n                    </div>\n                    <div class="product__card_title_holder">\n                        <span>'
-        )
-        .concat(
-          data.veckans[i].description,
-          '</span>\n                    </div>\n                    <div class="product__card_subtitle">\n                        <div class="product__card_size">\n                            <span>'
-        )
-        .concat(
-          data.veckans[i].qty,
-          'st</span>\n                        </div>\n                        <div class="product__card_origin">\n                            <span class="aria-label">'
-        )
-        .concat(
-          data.veckans[i].origin,
+          data[i].category,
           '</span>\n                        </div>\n                    </div>\n                    <div class="product__card_bottom">\n                        <div class="product__card_price">\n                            <span class="price price__discount">'
         )
         .concat(
-          data.veckans[i].discount,
-          ':-</span>\n                            <span class="price__compare">'
+          data[i].price,
+          ':-</span>\n                            <span class="price__compare"> '
         )
         .concat(
-          data.veckans[i].kilopris,
-          ' /kg</span>\n                            <div class="divider"></div>\n                            <span class="price_orginal">'
+          data[i].stock,
+          ' st kvar</span>\n                            <div class="divider"></div>\n                            <span class="price_orginal">'
         )
         .concat(
-          data.veckans[i].original_price,
+          data[i].discountPercentage,
           '</span>\n                        </div>\n                        <div class="product__card_quantity">\n                            <div class="product__card_quantity_inner ">\n                                <div id="'
         )
         .concat(
-          data.veckans[i].id,
+          data[i].id,
           '-controls-container" class="product__card_controls">\n                                <button id="'
         )
         .concat(
-          data.veckans[i].id,
+          data[i].id,
           '-minus" class="product__card_quantity_button button--primary">\n                                    <i id="'
         )
         .concat(
-          data.veckans[i].id,
+          data[i].id,
           '-icon-minus" class="fa-solid fa-minus"></i>\n                                </button>\n                                <input id="'
         )
-        .concat(data.veckans[i].id, '-qty" type="text" value=')
+        .concat(data[i].id, '-qty" type="text" value=')
         .concat(
-          data.veckans[i].qty,
+          data[i].qty,
           ' class="quantity__input" max="99">    \n                                <button id="'
         )
         .concat(
-          data.veckans[i].id,
+          data[i].id,
           '-plus" class="product__card_quantity_button button--primary">\n                                        <i id="'
         )
         .concat(
-          data.veckans[i].id,
+          data[i].id,
           '-icon-plus" class="fa-solid fa-plus"></i>\n                                    </button>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>'
         );
     prodContainer.append(prodEl);
@@ -377,7 +375,6 @@ var showProds = function (data) {
       "product__card_quantity_button"
     );
     Array.from(allQtyButtons).map(function (but) {
-      console.log(but);
       but.addEventListener("click", function (e) {
         if (e.target instanceof HTMLElement) {
           if (e.target.id.slice(e.target.id.lastIndexOf("-") + 1) == "plus") {
@@ -414,7 +411,7 @@ var sumQtysInCart = function () {
     var prodPrice_1 = 0;
     cartProds.map(function (prod) {
       allCartprodsQtys += prod.qty;
-      prodPrice_1 = prod.discount * prod.qty;
+      prodPrice_1 = prod.price * prod.qty;
       rawPrice += prodPrice_1;
     });
     transportPrice = rawPrice * 0.1;
@@ -464,16 +461,16 @@ var addToCart = function (i, action) {
         cartProds.splice(cartProds.indexOf(prodInCart[0]), 1);
       }
     } else if (action == "plus") {
-      allProds.veckans.map(function (prod, ind) {
-        if (ind == i) {
+      allProds.map(function (prod, ind) {
+        if (prod.id == i) {
           prod.qty += 1;
           cartProds.push(prod);
         }
       });
     }
   } else if (action == "plus") {
-    allProds.veckans.map(function (prod, ind) {
-      if (ind == i) {
+    allProds.map(function (prod, ind) {
+      if (prod.id == i) {
         cartProds.push(prod);
       }
     });
