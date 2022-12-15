@@ -499,7 +499,7 @@ hr {
 #undercontext {
   position: relative;
   display: flex;
-  width: 100%;
+  max-width: 95%;
   height: 25vh;
   margin: 0 auto;
   background-color: rgb(226, 221, 215);
@@ -525,7 +525,7 @@ hr {
 }
 
 #undercontext #undercontext-container {
-  width: 100%;
+  width: 90%;
   margin: 1rem 1rem 1rem 0.5rem;
 }
 
@@ -603,9 +603,7 @@ footer p {
 /* responsive */
 
 @media screen and (max-width: 700px) {
-  #head-container,
-  #products,
-  #undercontext {
+  #products {
     width: 90%;
   }
 }
@@ -675,10 +673,6 @@ footer p {
     width: 42%;
   }
 
-  #head-container {
-    width: 100%;
-  }
-
   #head-container h1,
   #cart h3 {
     font-size: large;
@@ -689,10 +683,6 @@ footer p {
   }
   .proditem .product-specifics p {
     font-size: medium;
-  }
-
-  #undercontext {
-    width: 100%;
   }
 
   div #inloggning {
@@ -782,11 +772,6 @@ footer p {
   #varukorg-bild {
     max-width: 80px !important;
     height: auto;
-  }
-
-  #head-container,
-  #undercontext {
-    width: 100%;
   }
 
   #head-container h1 {
