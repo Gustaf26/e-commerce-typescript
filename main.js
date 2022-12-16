@@ -51,21 +51,33 @@ var showCategories = function (prods) {
   });
   prodCats.forEach(function (cat) {
     var _a;
-    var catEL = document.createElement("option");
+    var catEL = document.createElement("li");
     catEL.innerHTML = cat;
     catEL.classList.add("category");
+    catEL.style.display = "none";
     (_a = document.getElementById("kategorier")) === null || _a === void 0
       ? void 0
       : _a.append(catEL);
   });
-  (_a = document.getElementById("kategorier")) === null || _a === void 0
+  var catsListEl = document.getElementById("kategorier");
+  (_a = document.getElementById("list-kategorier")) === null || _a === void 0
     ? void 0
-    : _a.addEventListener("click", function (e) {
-        if (e.target instanceof HTMLSelectElement) {
-          console.log(e.target.value);
-          searchProdsFunction(e.target.value);
-        }
+    : _a.addEventListener("mouseover", function (e) {
+        catsListEl.style.display = "flex";
+        var allCats = document.getElementsByClassName("category");
+        Array.from(allCats).map(function (cat) {
+          cat.style.display = "block";
+          cat.addEventListener("click", function (e) {
+            if (e.target instanceof HTMLLIElement) {
+              console.log(e.target.innerHTML);
+              searchProdsFunction(e.target.innerHTML);
+            }
+          });
+        });
       });
+  catsListEl.addEventListener("mouseout", function (e) {
+    catsListEl.style.display = "none";
+  });
 };
 // Hämtar produkterna från db
 var getProds = function () {

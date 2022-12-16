@@ -70,17 +70,35 @@ const showCategories = (prods: Product[]) => {
   });
 
   prodCats.forEach((cat) => {
-    let catEL = document.createElement("option") as HTMLOptionElement;
+    let catEL = document.createElement("li") as HTMLLIElement;
     catEL.innerHTML = cat;
     catEL.classList.add("category");
+    catEL.style.display = "none";
     document.getElementById("kategorier")?.append(catEL);
   });
 
-  document.getElementById("kategorier")?.addEventListener("click", (e) => {
-    if (e.target instanceof HTMLSelectElement) {
-      console.log(e.target.value);
-      searchProdsFunction(e.target.value);
-    }
+  let catsListEl = document.getElementById("kategorier") as HTMLUListElement;
+
+  document
+    .getElementById("list-kategorier")
+    ?.addEventListener("mouseover", (e) => {
+      catsListEl.style.display = "flex";
+      let allCats = document.getElementsByClassName(
+        "category"
+      ) as HTMLCollectionOf<HTMLLIElement>;
+      Array.from(allCats).map((cat) => {
+        cat.style.display = "block";
+        cat.addEventListener("click", (e) => {
+          if (e.target instanceof HTMLLIElement) {
+            console.log(e.target.innerHTML);
+            searchProdsFunction(e.target.innerHTML);
+          }
+        });
+      });
+    });
+
+  catsListEl.addEventListener("mouseout", (e) => {
+    catsListEl.style.display = "none";
   });
 };
 

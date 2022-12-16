@@ -182,10 +182,45 @@ div#menu-container {
 
 #menu select {
   font-family: "channel_5_colourregular";
-  border: 1px solid transparent !important;
+  border: 1px solid rgba(0, 0, 0, 0) !important;
   font-size: 0.95em;
   color: rgb(119, 119, 119);
 }
+
+#list-kategorier {
+  position: relative;
+}
+
+#menu ul #kategorier {
+  position: absolute;
+  bottom: -60px;
+  left: -20px;
+  display: none;
+  flex-direction: row;
+  background-color: white;
+  max-width: 80vw;
+  min-width: 60vw;
+  justify-content: center;
+  z-index: 2000;
+  align-items: center;
+  height: 60px;
+  padding: 0;
+}
+
+#menu li.category {
+  padding: 1rem !important;
+  max-height: 1rem !important;
+  font-size: medium;
+  cursor: pointer;
+  margin-right: 0;
+  /* width: 50px; */
+}
+
+li.category:hover {
+  color: #a1edfb !important;
+  background-color: #26263a;
+}
+
 #menu ul:nth-child(odd) {
   width: 50%;
   color: rgb(110, 110, 110);
