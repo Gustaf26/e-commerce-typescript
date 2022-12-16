@@ -187,9 +187,9 @@ div#menu-container {
   color: rgb(119, 119, 119);
 }
 
-#list-kategorier {
+/* #list-kategorier {
   position: relative;
-}
+} */
 
 #menu ul #kategorier {
   position: absolute;
@@ -211,6 +211,7 @@ div#menu-container {
   padding: 1rem !important;
   max-height: 1rem !important;
   font-size: medium;
+  font-weight: 300 !important;
   cursor: pointer;
   margin-right: 0;
   /* width: 50px; */
@@ -684,6 +685,18 @@ footer p {
     justify-content: center;
   }
 
+  #menu ul #kategorier {
+    flex-direction: column;
+    bottom: -45vh;
+    height: 45vh;
+  }
+
+  #menu li.category {
+    width: 90%;
+    text-align: center;
+    border-bottom: 1.5px dotted lightgray;
+  }
+
   #varukorg-bild {
     max-width: 80px !important;
     height: auto;
@@ -796,6 +809,17 @@ footer p {
     padding: 0.5rem;
     display: flex;
     justify-content: center;
+  }
+
+  #menu ul #kategorier {
+    min-width: 100vw;
+    max-width: 110vw;
+  }
+
+  #menu li.category {
+    width: 90%;
+    text-align: center;
+    border-bottom: 1.5px dotted lightgray;
   }
 
   #varukorg-bild {
