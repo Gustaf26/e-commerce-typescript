@@ -39,7 +39,7 @@ function emptyProds() {
 // Search products function
 function searchProdsFunction(val: string) {
   emptyProds();
-  // alert("Searching prod");
+
   allProds.map((prod: Product) => {
     if (
       prod.category.toLowerCase().includes(val.toLowerCase()) ||
@@ -47,7 +47,6 @@ function searchProdsFunction(val: string) {
       prod.brand.toLowerCase().includes(val.toLowerCase()) ||
       prod.title.toLowerCase().includes(val.toLowerCase())
     ) {
-      // alert("Value founded");
       searchProds.push(prod);
     }
   });
@@ -61,6 +60,7 @@ function searchProdsFunction(val: string) {
 const showCategories = (prods: Product[]) => {
   let prodCats: string[] = [];
 
+  // Get unique categories from prods
   prods.forEach((prod: Product) => {
     prod.category =
       prod.category.charAt(0).toUpperCase() + prod.category.slice(1);
@@ -69,6 +69,7 @@ const showCategories = (prods: Product[]) => {
     }
   });
 
+  // Create an <li> for each category
   prodCats.forEach((cat) => {
     let catEL = document.createElement("li") as HTMLLIElement;
     catEL.innerHTML = cat;
@@ -79,23 +80,24 @@ const showCategories = (prods: Product[]) => {
 
   let catsListEl = document.getElementById("kategorier") as HTMLUListElement;
 
+  // Append elements created and event listeners
   document
     .getElementById("list-kategorier")
     ?.addEventListener("mouseover", (e) => {
       catsListEl.style.display = "flex";
-      let allCats = document.getElementsByClassName(
-        "category"
-      ) as HTMLCollectionOf<HTMLLIElement>;
-      Array.from(allCats).map((cat) => {
-        cat.style.display = "block";
-        cat.addEventListener("click", (e) => {
-          if (e.target instanceof HTMLLIElement) {
-            console.log(e.target.innerHTML);
-            searchProdsFunction(e.target.innerHTML);
-          }
-        });
-      });
     });
+
+  let allCats = document.getElementsByClassName(
+    "category"
+  ) as HTMLCollectionOf<HTMLLIElement>;
+  Array.from(allCats).map((cat) => {
+    cat.style.display = "block";
+    cat.addEventListener("click", (e) => {
+      if (e.target instanceof HTMLLIElement) {
+        searchProdsFunction(e.target.innerHTML);
+      }
+    });
+  });
 
   catsListEl.addEventListener("mouseout", (e) => {
     catsListEl.style.display = "none";
@@ -174,7 +176,7 @@ const changeQty = (id: number, action: string) => {
   let chosenProd: Product[];
   if (cartProds && cartProds.length > 0) {
     chosenProd = cartProds.filter((cartProd: Product) => cartProd.id == id);
-    console.log(chosenProd);
+
     if (chosenProd && action == "plus") {
       chosenProd[0].qty += 1;
     } else if (chosenProd && action == "minus") {
@@ -192,7 +194,9 @@ const changeQty = (id: number, action: string) => {
           let prodQtyEl = document.getElementById(
             `${id}-qty`
           ) as HTMLInputElement;
-          prodQtyEl.value = "0";
+          if (prodQtyEl) {
+            prodQtyEl.value = "0";
+          }
         } else {
           let prodQtyEl = document.getElementById(
             `qty-${id}`
@@ -201,7 +205,9 @@ const changeQty = (id: number, action: string) => {
           let otherProdQtyEl = document.getElementById(
             `${id}-qty`
           ) as HTMLInputElement;
-          otherProdQtyEl.value = chosenProd[0].qty.toString();
+          if (otherProdQtyEl) {
+            otherProdQtyEl.value = chosenProd[0].qty.toString();
+          }
         }
       }
     });
@@ -393,30 +399,6 @@ const changeProdQty = (id: number, action: "plus" | "minus") => {
       prodQty = prodQty - 1;
     }
     prodQtyEl.value = prodQty.toString();
-    // } else {
-    //   let leftControl = document.createElement("button")
-    //   leftControl.id = `${id}-minus`
-    //   leftControl.classList.add("product__card_quantity_button")
-    //   leftControl.innerHTML = `<i  id="" class="fa-solid fa-minus"></i>`
-    //   let controlInput = document.createElement("input")
-    //   controlInput.id = `${id}-qty`
-    //   controlInput.classList.add("quantity__input")
-    //   controlInput.value = 1
-    //   controlInput.type = "number"
-    //     `<button id= class="product__card_quantity_button">
-    //     <i  id="" class="fa-solid fa-minus"></i>
-    // </button>
-    // <input id="${i}-qty" type="text" value=${
-    // data.veckans[i].qty
-    // } class="quantity__input" max="99">`
-    // document.getElementById(`${id}-controls-container`).prepend(controlInput)
-    // document.getElementById(`${id}-controls-container`).prepend(leftControl)
-    // setTimeout(() => {
-    //   leftControl.addEventListener("click", () => {
-    //     addToCart(id, "minus")
-    //     changeProdQty(id, "minus")
-    //   })
-    // }, 2000)
   }
 };
 

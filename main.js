@@ -23,7 +23,6 @@ function emptyProds() {
 // Search products function
 function searchProdsFunction(val) {
   emptyProds();
-  // alert("Searching prod");
   allProds.map(function (prod) {
     if (
       prod.category.toLowerCase().includes(val.toLowerCase()) ||
@@ -31,7 +30,6 @@ function searchProdsFunction(val) {
       prod.brand.toLowerCase().includes(val.toLowerCase()) ||
       prod.title.toLowerCase().includes(val.toLowerCase())
     ) {
-      // alert("Value founded");
       searchProds.push(prod);
     }
   });
@@ -42,6 +40,7 @@ function searchProdsFunction(val) {
 var showCategories = function (prods) {
   var _a;
   var prodCats = [];
+  // Get unique categories from prods
   prods.forEach(function (prod) {
     prod.category =
       prod.category.charAt(0).toUpperCase() + prod.category.slice(1);
@@ -49,6 +48,7 @@ var showCategories = function (prods) {
       prodCats.push(prod.category);
     }
   });
+  // Create an <li> for each category
   prodCats.forEach(function (cat) {
     var _a;
     var catEL = document.createElement("li");
@@ -60,21 +60,21 @@ var showCategories = function (prods) {
       : _a.append(catEL);
   });
   var catsListEl = document.getElementById("kategorier");
+  // Append elements created and event listeners
   (_a = document.getElementById("list-kategorier")) === null || _a === void 0
     ? void 0
     : _a.addEventListener("mouseover", function (e) {
         catsListEl.style.display = "flex";
-        var allCats = document.getElementsByClassName("category");
-        Array.from(allCats).map(function (cat) {
-          cat.style.display = "block";
-          cat.addEventListener("click", function (e) {
-            if (e.target instanceof HTMLLIElement) {
-              console.log(e.target.innerHTML);
-              searchProdsFunction(e.target.innerHTML);
-            }
-          });
-        });
       });
+  var allCats = document.getElementsByClassName("category");
+  Array.from(allCats).map(function (cat) {
+    cat.style.display = "block";
+    cat.addEventListener("click", function (e) {
+      if (e.target instanceof HTMLLIElement) {
+        searchProdsFunction(e.target.innerHTML);
+      }
+    });
+  });
   catsListEl.addEventListener("mouseout", function (e) {
     catsListEl.style.display = "none";
   });
@@ -142,7 +142,6 @@ var changeQty = function (id, action) {
     chosenProd = cartProds.filter(function (cartProd) {
       return cartProd.id == id;
     });
-    console.log(chosenProd);
     if (chosenProd && action == "plus") {
       chosenProd[0].qty += 1;
     } else if (chosenProd && action == "minus") {
@@ -158,12 +157,16 @@ var changeQty = function (id, action) {
           productEL.remove();
           cartProds.splice(ind, 1);
           var prodQtyEl = document.getElementById("".concat(id, "-qty"));
-          prodQtyEl.value = "0";
+          if (prodQtyEl) {
+            prodQtyEl.value = "0";
+          }
         } else {
           var prodQtyEl = document.getElementById("qty-".concat(id));
           prodQtyEl.innerHTML = chosenProd[0].qty.toString();
           var otherProdQtyEl = document.getElementById("".concat(id, "-qty"));
-          otherProdQtyEl.value = chosenProd[0].qty.toString();
+          if (otherProdQtyEl) {
+            otherProdQtyEl.value = chosenProd[0].qty.toString();
+          }
         }
       }
     });
@@ -317,30 +320,6 @@ var changeProdQty = function (id, action) {
       prodQty = prodQty - 1;
     }
     prodQtyEl.value = prodQty.toString();
-    // } else {
-    //   let leftControl = document.createElement("button")
-    //   leftControl.id = `${id}-minus`
-    //   leftControl.classList.add("product__card_quantity_button")
-    //   leftControl.innerHTML = `<i  id="" class="fa-solid fa-minus"></i>`
-    //   let controlInput = document.createElement("input")
-    //   controlInput.id = `${id}-qty`
-    //   controlInput.classList.add("quantity__input")
-    //   controlInput.value = 1
-    //   controlInput.type = "number"
-    //     `<button id= class="product__card_quantity_button">
-    //     <i  id="" class="fa-solid fa-minus"></i>
-    // </button>
-    // <input id="${i}-qty" type="text" value=${
-    // data.veckans[i].qty
-    // } class="quantity__input" max="99">`
-    // document.getElementById(`${id}-controls-container`).prepend(controlInput)
-    // document.getElementById(`${id}-controls-container`).prepend(leftControl)
-    // setTimeout(() => {
-    //   leftControl.addEventListener("click", () => {
-    //     addToCart(id, "minus")
-    //     changeProdQty(id, "minus")
-    //   })
-    // }, 2000)
   }
 };
 // Från alla produktern i db uppvisar en card
