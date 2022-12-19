@@ -308,9 +308,10 @@ forsattHandlaEl.addEventListener("click", function () {
 });
 // Ändrar value på inputen för den valda produkten
 var changeProdQty = function (id, action) {
+  var prodQty;
   if (document.getElementById("".concat(id, "-qty"))) {
     var prodQtyEl = document.getElementById("".concat(id, "-qty"));
-    var prodQty = Number(prodQtyEl.value);
+    prodQty = Number(prodQtyEl.value);
     if (action == "plus") {
       prodQty = prodQty + 1;
     } else {
@@ -320,6 +321,22 @@ var changeProdQty = function (id, action) {
       prodQty = prodQty - 1;
     }
     prodQtyEl.value = prodQty.toString();
+  }
+  // Update cart element and qty if product is in cart as well
+  if (document.getElementById("qty-".concat(id))) {
+    var prodQtyEl = document.getElementById("qty-".concat(id));
+    prodQtyEl.innerHTML = prodQty.toString();
+    if (prodQty == 0) {
+      var productEL = document.getElementById("product-".concat(id));
+      productEL.remove();
+    }
+    // Map through the elements in cart to udate qty in global variable
+    cartProds.map(function (prod) {
+      if (prod.id == id) {
+        prod.qty = prodQty;
+      }
+    });
+    showPricesInCart();
   }
 };
 // Från alla produktern i db uppvisar en card

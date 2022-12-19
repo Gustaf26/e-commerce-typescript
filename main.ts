@@ -387,9 +387,10 @@ forsattHandlaEl.addEventListener("click", () => {
 
 // Ändrar value på inputen för den valda produkten
 const changeProdQty = (id: number, action: "plus" | "minus") => {
+  let prodQty;
   if (document.getElementById(`${id}-qty`)) {
     let prodQtyEl = document.getElementById(`${id}-qty`) as HTMLInputElement;
-    let prodQty = Number(prodQtyEl.value);
+    prodQty = Number(prodQtyEl.value);
     if (action == "plus") {
       prodQty = prodQty + 1;
     } else {
@@ -399,6 +400,25 @@ const changeProdQty = (id: number, action: "plus" | "minus") => {
       prodQty = prodQty - 1;
     }
     prodQtyEl.value = prodQty.toString();
+  }
+
+  // Update cart element and qty if product is in cart as well
+  if (document.getElementById(`qty-${id}`)) {
+    let prodQtyEl = document.getElementById(`qty-${id}`) as HTMLBaseElement;
+    prodQtyEl.innerHTML = prodQty.toString();
+    if (prodQty == 0) {
+      let productEL = document.getElementById(
+        `product-${id}`
+      ) as HTMLBaseElement;
+      productEL.remove();
+    }
+    // Map through the elements in cart to udate qty in global variable
+    cartProds.map((prod) => {
+      if (prod.id == id) {
+        prod.qty = prodQty;
+      }
+    });
+    showPricesInCart();
   }
 };
 
