@@ -330,13 +330,19 @@ var changeProdQty = function (id, action) {
       var productEL = document.getElementById("product-".concat(id));
       productEL.remove();
     }
-    // Map through the elements in cart to udate qty in global variable
-    cartProds.map(function (prod) {
+    // Map through the elements in cart to update qty in global variable
+    cartProds.map(function (prod, ind) {
       if (prod.id == id) {
         prod.qty = prodQty;
+        if (prodQty == 0) {
+          cartProds.splice(ind, 1);
+        }
       }
     });
     showPricesInCart();
+    if (cartProds.length == 0) {
+      showEmptyCart();
+    }
   }
 };
 // Från alla produktern i db uppvisar en card
