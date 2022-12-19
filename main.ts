@@ -253,29 +253,38 @@ const showPricesInCart = () => {
 
 // Visar alla produkter i carten och skapar en HTML element för varje produkt
 const showProdsInCart = (cartProds: Product[]) => {
+  // We empty the eventual msg of empty cart
+  let emptyCartEl = document.getElementById(
+    "empty-cart-msg"
+  ) as HTMLBaseElement;
+  if (emptyCartEl) {
+    emptyCartEl.remove();
+  }
   let prodsContainer = document.getElementById(
     "products-container"
   ) as HTMLBaseElement;
+
   let goToCheckoutEl = document.getElementById(
     "go-to-checkout"
   ) as HTMLBaseElement;
   goToCheckoutEl.style.display = "block";
   cartProds.map((prod: Product) => {
-    let prodContainer = document.createElement("div");
-    prodContainer.id = `product-${prod.id}`;
-    prodContainer.innerHTML = `<h3 id="heading-prod1" class="proditem">${
-      prod.category
-    }</h3>
+    if (!document.getElementById(`product-${prod.id}`)) {
+      let prodContainer = document.createElement("div");
+      prodContainer.id = `product-${prod.id}`;
+      prodContainer.innerHTML = `<h3 id="heading-prod1" class="proditem">${
+        prod.category
+      }</h3>
     <div class="product proditem" id="prod1">
         <img src="${prod.thumbnail}"/>
         <div class="product-info">
             <div class="product-specifics">
                 <p>${prod.title}</p>
                 <p><span id="${prod.id}-price" class="price">${
-      prod.price
-    }:-</span> <span class="discounted-prod-price">${Math.round(
-      prod.discountPercentage
-    )}</span></p>
+        prod.price
+      }:-</span> <span class="discounted-prod-price">${Math.round(
+        prod.discountPercentage
+      )}</span></p>
             </div>
             <div class="qty-container">
                 <i id="${
@@ -289,7 +298,8 @@ const showProdsInCart = (cartProds: Product[]) => {
         </div>
     </div>
     <hr class="proditem">`;
-    prodsContainer.prepend(prodContainer);
+      prodsContainer.prepend(prodContainer);
+    }
   });
 
   let trashEl = document.getElementById("trash-container") as HTMLBaseElement;
@@ -426,6 +436,10 @@ const changeProdQty = (id: number, action: "plus" | "minus") => {
     if (cartProds.length == 0) {
       showEmptyCart();
     }
+  } else {
+    // Product can be added to the open cart from the page as well
+    // even if not existing
+    showProdsInCart(cartProds);
   }
 };
 
@@ -597,7 +611,7 @@ const sumQtysInCart = () => {
   }
 };
 
-// Lägger till produkt i carten och uppdaterar cart_product i localStorage
+// Lägger till produkt i carten och uppdaterar cart_product
 const addToCart = (i: number, action: "plus" | "minus") => {
   // alert("Adding working");
   if (cartProds) {

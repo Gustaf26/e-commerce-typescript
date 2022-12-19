@@ -204,39 +204,46 @@ var showPricesInCart = function () {
 };
 // Visar alla produkter i carten och skapar en HTML element för varje produkt
 var showProdsInCart = function (cartProds) {
+  // We empty the eventual msg of empty cart
+  var emptyCartEl = document.getElementById("empty-cart-msg");
+  if (emptyCartEl) {
+    emptyCartEl.remove();
+  }
   var prodsContainer = document.getElementById("products-container");
   var goToCheckoutEl = document.getElementById("go-to-checkout");
   goToCheckoutEl.style.display = "block";
   cartProds.map(function (prod) {
-    var prodContainer = document.createElement("div");
-    prodContainer.id = "product-".concat(prod.id);
-    prodContainer.innerHTML = '<h3 id="heading-prod1" class="proditem">'
-      .concat(
-        prod.category,
-        '</h3>\n    <div class="product proditem" id="prod1">\n        <img src="'
-      )
-      .concat(
-        prod.thumbnail,
-        '"/>\n        <div class="product-info">\n            <div class="product-specifics">\n                <p>'
-      )
-      .concat(prod.title, '</p>\n                <p><span id="')
-      .concat(prod.id, '-price" class="price">')
-      .concat(prod.price, ':-</span> <span class="discounted-prod-price">')
-      .concat(
-        Math.round(prod.discountPercentage),
-        '</span></p>\n            </div>\n            <div class="qty-container">\n                <i id="'
-      )
-      .concat(
-        prod.id,
-        '-qty-minus" class="qtybutton fas fa-solid fa-minus"></i>\n                <b class="qty" id="qty-'
-      )
-      .concat(prod.id, '">')
-      .concat(prod.qty, '</b>\n                <i id="')
-      .concat(
-        prod.id,
-        '-qty-plus"  class="qtybutton fas fa-solid fa-plus"></i>\n            </div>\n        </div>\n    </div>\n    <hr class="proditem">'
-      );
-    prodsContainer.prepend(prodContainer);
+    if (!document.getElementById("product-".concat(prod.id))) {
+      var prodContainer = document.createElement("div");
+      prodContainer.id = "product-".concat(prod.id);
+      prodContainer.innerHTML = '<h3 id="heading-prod1" class="proditem">'
+        .concat(
+          prod.category,
+          '</h3>\n    <div class="product proditem" id="prod1">\n        <img src="'
+        )
+        .concat(
+          prod.thumbnail,
+          '"/>\n        <div class="product-info">\n            <div class="product-specifics">\n                <p>'
+        )
+        .concat(prod.title, '</p>\n                <p><span id="')
+        .concat(prod.id, '-price" class="price">')
+        .concat(prod.price, ':-</span> <span class="discounted-prod-price">')
+        .concat(
+          Math.round(prod.discountPercentage),
+          '</span></p>\n            </div>\n            <div class="qty-container">\n                <i id="'
+        )
+        .concat(
+          prod.id,
+          '-qty-minus" class="qtybutton fas fa-solid fa-minus"></i>\n                <b class="qty" id="qty-'
+        )
+        .concat(prod.id, '">')
+        .concat(prod.qty, '</b>\n                <i id="')
+        .concat(
+          prod.id,
+          '-qty-plus"  class="qtybutton fas fa-solid fa-plus"></i>\n            </div>\n        </div>\n    </div>\n    <hr class="proditem">'
+        );
+      prodsContainer.prepend(prodContainer);
+    }
   });
   var trashEl = document.getElementById("trash-container");
   trashEl.style.display = "flex";
@@ -343,6 +350,10 @@ var changeProdQty = function (id, action) {
     if (cartProds.length == 0) {
       showEmptyCart();
     }
+  } else {
+    // Product can be added to the open cart from the page as well
+    // even if not existing
+    showProdsInCart(cartProds);
   }
 };
 // Från alla produktern i db uppvisar en card
@@ -488,7 +499,7 @@ var sumQtysInCart = function () {
     cartPriceEl.append(totalPriceEl);
   }
 };
-// Lägger till produkt i carten och uppdaterar cart_product i localStorage
+// Lägger till produkt i carten och uppdaterar cart_product
 var addToCart = function (i, action) {
   // alert("Adding working");
   if (cartProds) {
