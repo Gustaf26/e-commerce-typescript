@@ -215,7 +215,6 @@ var showProdsInCart = function (cartProds) {
   goToCheckoutEl.style.display = "block";
   cartProds.map(function (prod) {
     if (!document.getElementById("product-".concat(prod.id))) {
-      alert("creating prod");
       var prodContainer = document.createElement("div");
       prodContainer.id = "product-".concat(prod.id);
       prodContainer.className = "proditem";

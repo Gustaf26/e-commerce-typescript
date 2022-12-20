@@ -271,7 +271,6 @@ const showProdsInCart = (cartProds: Product[]) => {
   goToCheckoutEl.style.display = "block";
   cartProds.map((prod: Product) => {
     if (!document.getElementById(`product-${prod.id}`)) {
-      alert("creating prod");
       let prodContainer = document.createElement("div");
       prodContainer.id = `product-${prod.id}`;
       prodContainer.className = "proditem";
