@@ -4,6 +4,7 @@ var allProds;
 var cartProds = [];
 var searchProds = [];
 var totalSumma = 0;
+var cartShowing = false;
 (_a = document.getElementById("search-button")) === null || _a === void 0
   ? void 0
   : _a.addEventListener("click", function (e) {
@@ -214,8 +215,10 @@ var showProdsInCart = function (cartProds) {
   goToCheckoutEl.style.display = "block";
   cartProds.map(function (prod) {
     if (!document.getElementById("product-".concat(prod.id))) {
+      alert("creating prod");
       var prodContainer = document.createElement("div");
       prodContainer.id = "product-".concat(prod.id);
+      prodContainer.className = "proditem";
       prodContainer.innerHTML = '<h3 id="heading-prod1" class="proditem">'
         .concat(
           prod.category,
@@ -285,6 +288,7 @@ var toggleCart = function () {
   var cartEL = document.getElementById("cart");
   if (cartEL && cartEL.style.display == "none") {
     cartEL.style.display = "block";
+    cartShowing = true;
     if (cartProds.length > 0) {
       showProdsInCart(cartProds);
       var emptyCartMsgEl = document.getElementById("empty-cart-msg");
@@ -296,6 +300,7 @@ var toggleCart = function () {
     }
   } else {
     cartEL.style.display = "none";
+    cartShowing = false;
     var allCartProds = document.getElementsByClassName("proditem");
     if (allCartProds.length > 0) {
       Array.from(allCartProds).map(function (cartElement) {
@@ -350,7 +355,7 @@ var changeProdQty = function (id, action) {
     if (cartProds.length == 0) {
       showEmptyCart();
     }
-  } else {
+  } else if (cartShowing == true) {
     // Product can be added to the open cart from the page as well
     // even if not existing
     showProdsInCart(cartProds);
@@ -501,20 +506,22 @@ var sumQtysInCart = function () {
 };
 // Lägger till produkt i carten och uppdaterar cart_product
 var addToCart = function (i, action) {
-  // alert("Adding working");
   if (cartProds) {
     var prodInCart = cartProds.filter(function (cartProd) {
       return cartProd.id == i;
     });
+    // Change prod qty if prod in cart
     if (prodInCart.length > 0) {
       if (action == "plus") {
         prodInCart[0].qty += 1;
       } else {
         prodInCart[0].qty -= 1;
       }
+      // Remove prod from cart if qty == 0
       if (prodInCart[0].qty == 0) {
         cartProds.splice(cartProds.indexOf(prodInCart[0]), 1);
       }
+      // Add prod to cart if not existing there
     } else if (action == "plus") {
       allProds.map(function (prod, ind) {
         if (prod.id == i) {
@@ -523,6 +530,7 @@ var addToCart = function (i, action) {
         }
       });
     }
+    // Add first prod to cart
   } else if (action == "plus") {
     allProds.map(function (prod, ind) {
       if (prod.id == i) {

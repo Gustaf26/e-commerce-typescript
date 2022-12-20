@@ -19,6 +19,7 @@ let allProds: Product[];
 let cartProds: Product[] = [];
 let searchProds: Product[] = [];
 let totalSumma: number = 0;
+let cartShowing: boolean = false;
 
 document.getElementById("search-button")?.addEventListener("click", (e) => {
   let inputEL = document.getElementById("search-input") as HTMLInputElement;
@@ -270,8 +271,10 @@ const showProdsInCart = (cartProds: Product[]) => {
   goToCheckoutEl.style.display = "block";
   cartProds.map((prod: Product) => {
     if (!document.getElementById(`product-${prod.id}`)) {
+      alert("creating prod");
       let prodContainer = document.createElement("div");
       prodContainer.id = `product-${prod.id}`;
+      prodContainer.className = "proditem";
       prodContainer.innerHTML = `<h3 id="heading-prod1" class="proditem">${
         prod.category
       }</h3>
@@ -356,6 +359,7 @@ const toggleCart = () => {
   let cartEL = document.getElementById("cart") as HTMLBaseElement;
   if (cartEL && cartEL.style.display == "none") {
     cartEL.style.display = "block";
+    cartShowing = true;
     if (cartProds.length > 0) {
       showProdsInCart(cartProds);
       let emptyCartMsgEl = document.getElementById(
@@ -369,6 +373,7 @@ const toggleCart = () => {
     }
   } else {
     cartEL.style.display = "none";
+    cartShowing = false;
     let allCartProds = document.getElementsByClassName(
       "proditem"
     ) as HTMLCollection;
@@ -436,7 +441,7 @@ const changeProdQty = (id: number, action: "plus" | "minus") => {
     if (cartProds.length == 0) {
       showEmptyCart();
     }
-  } else {
+  } else if (cartShowing == true) {
     // Product can be added to the open cart from the page as well
     // even if not existing
     showProdsInCart(cartProds);
@@ -613,20 +618,22 @@ const sumQtysInCart = () => {
 
 // Lägger till produkt i carten och uppdaterar cart_product
 const addToCart = (i: number, action: "plus" | "minus") => {
-  // alert("Adding working");
   if (cartProds) {
     let prodInCart: Product[] = cartProds.filter(
       (cartProd: Product) => cartProd.id == i
     );
+    // Change prod qty if prod in cart
     if (prodInCart.length > 0) {
       if (action == "plus") {
         prodInCart[0].qty += 1;
       } else {
         prodInCart[0].qty -= 1;
       }
+      // Remove prod from cart if qty == 0
       if (prodInCart[0].qty == 0) {
         cartProds.splice(cartProds.indexOf(prodInCart[0]), 1);
       }
+      // Add prod to cart if not existing there
     } else if (action == "plus") {
       allProds.map((prod, ind) => {
         if (prod.id == i) {
@@ -635,6 +642,7 @@ const addToCart = (i: number, action: "plus" | "minus") => {
         }
       });
     }
+    // Add first prod to cart
   } else if (action == "plus") {
     allProds.map((prod, ind) => {
       if (prod.id == i) {
