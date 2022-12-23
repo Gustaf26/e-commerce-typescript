@@ -338,7 +338,7 @@ const showEmptyCart = () => {
   let emptyCartMsg = document.createElement("div");
   emptyCartMsg.id = "empty-cart-msg";
 
-  emptyCartMsg.innerHTML = `<img src="/assets/tom-varukorg.png">
+  emptyCartMsg.innerHTML = `<img src="/assets/tomvarukorg.png">
                       <h3>Oj, din varukorg ar tom.</h3>
                       <p id="under-msg-empty-cart">Borja handla, sa kommer varukorgen borja fyllas upp har</p>
                       `;
@@ -653,5 +653,3 @@ const addToCart = (i: number, action: "plus" | "minus") => {
 };
 
 sumQtysInCart();
-
-export {};
