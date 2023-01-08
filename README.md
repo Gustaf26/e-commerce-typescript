@@ -6,7 +6,7 @@
   <!-- <a href="https://mathemsida.netlify.app">Demo</a> -->
 </div>
 
-<h1 align="center">Mathem Sida</h1>
+<h1 align="center">Min butik</h1>
 
 <p align="center">
   <img alt="Github top language" src="https://img.shields.io/github/languages/top/Gustaf26/e-commerce-typescript?color=56BEB8">
