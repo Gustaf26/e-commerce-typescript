@@ -27,7 +27,7 @@
 <!-- Status -->
 
 <!-- <h4 align="center">
-	🚧  Mathem Sida 🚀 Under construction...  🚧
+	🚧  Min Butik 🚀 Under construction...  🚧
 </h4>
 
 <hr> -->
